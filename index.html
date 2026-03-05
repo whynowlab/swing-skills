@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="7 meta-cognitive skills that upgrade how your AI thinks — not just what it codes.">
-<meta property="og:title" content="Stack Skills — Stack your AI's thinking ability">
-<meta property="og:description" content="7 meta-cognitive skills that upgrade how your AI thinks — not just what it codes.">
+<meta name="description" content="AI가 코드를 쓰는 방식이 아니라, 생각하는 방식을 업그레이드하는 7개 메타인지 스킬">
+<meta property="og:title" content="Stack Skills — AI의 사고력을 쌓아올리다">
+<meta property="og:description" content="AI가 코드를 쓰는 방식이 아니라, 생각하는 방식을 업그레이드하는 7개 메타인지 스킬">
 <meta property="og:type" content="website">
-<title>Stack Skills — Stack your AI's thinking ability</title>
+<title>Stack Skills — AI의 사고력을 쌓아올리다</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -291,11 +291,67 @@
   .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
   .copy-btn.copied { border-color: var(--green); color: var(--green); }
 
+  /* ===== HERO COMPARISON ===== */
+  .hero-comparison {
+    margin-top: 40px;
+    animation: fadeSlideIn 0.6s 0.55s ease both;
+    max-width: 680px;
+  }
+
+  .hero-comparison-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-subtle);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+  }
+
+  .hero-cmp-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    border-radius: 8px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    margin-bottom: 8px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.4;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .hero-cmp-row.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .hero-cmp-row:nth-child(2) { transition-delay: 0.1s; }
+  .hero-cmp-row:nth-child(3) { transition-delay: 0.2s; }
+  .hero-cmp-row:nth-child(4) { transition-delay: 0.3s; }
+
+  .hcr-bad {
+    color: var(--red);
+    flex-shrink: 0;
+  }
+
+  .hcr-arrow {
+    color: var(--text-subtle);
+    flex-shrink: 0;
+  }
+
+  .hcr-good {
+    color: var(--green);
+  }
+
   .hero-stats {
     display: flex;
     gap: 40px;
-    margin-top: 48px;
-    animation: fadeSlideIn 0.6s 0.5s ease both;
+    margin-top: 40px;
+    animation: fadeSlideIn 0.6s 0.65s ease both;
   }
 
   .stat {
@@ -438,7 +494,7 @@
     margin-top: 60px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
   }
 
   .comparison-row {
@@ -449,7 +505,7 @@
   }
 
   .cmp-before, .cmp-after {
-    padding: 20px 24px;
+    padding: 16px 20px;
     border-radius: var(--radius);
     font-family: var(--font-mono);
     font-size: 13px;
@@ -464,7 +520,7 @@
   }
 
   .cmp-before::before {
-    content: '✗ WITHOUT';
+    content: '✗ 스킬 없이';
     display: block;
     font-size: 10px;
     color: var(--red);
@@ -481,7 +537,7 @@
   }
 
   .cmp-after::before {
-    content: '✓ WITH STACK SKILLS';
+    content: '✓ 스킬 적용 후';
     display: block;
     font-size: 10px;
     color: var(--green);
@@ -1093,6 +1149,7 @@
     .install-cta { flex-direction: column; align-items: flex-start; }
     .footer-inner { flex-direction: column; align-items: flex-start; }
     .demo-tabs { overflow-x: auto; }
+    .hero-cmp-row { font-size: 11px; }
   }
 
   /* ===== MISC EFFECTS ===== */
@@ -1121,11 +1178,11 @@
     <span class="prompt">~/</span>stack-skills<span class="cursor"></span>
   </a>
   <ul class="nav-links">
-    <li><a href="#problem">Problem</a></li>
-    <li><a href="#demo">Demo</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#benchmark">Benchmark</a></li>
-    <li><a href="#install">Install</a></li>
+    <li><a href="#problem">문제</a></li>
+    <li><a href="#demo">데모</a></li>
+    <li><a href="#skills">스킬</a></li>
+    <li><a href="#benchmark">벤치마크</a></li>
+    <li><a href="#install">설치</a></li>
   </ul>
   <a class="nav-cta" href="https://github.com/whynowlab/stack-skills" target="_blank">GitHub →</a>
 </nav>
@@ -1137,36 +1194,54 @@
   <div class="container hero-content">
     <div class="hero-badge">
       <span class="dot"></span>
-      Open Source · MIT License · 7 Skills
+      오픈소스 · MIT 라이선스 · 7개 스킬
     </div>
     <h1 class="hero-title">
       <span class="stack">Stack</span><br>
       <span class="skills">Skills</span>
     </h1>
-    <p class="hero-tagline">Stack your AI's thinking ability</p>
+    <p class="hero-tagline">AI의 사고력을 쌓아올리다</p>
     <p class="hero-subtitle">
-      7 meta-cognitive skills that upgrade how your AI thinks — not just what it codes.
+      설치 전에, 당신의 AI가 뭘 못하고 있었는지 30초만 보세요.
     </p>
     <div class="install-block">
-      <div class="install-label">Quick Install</div>
+      <div class="install-label">빠른 설치</div>
       <div class="install-cmd">
         <span class="install-prompt">$</span>
         <span class="install-text">npx skills add whynowlab/stack-skills --all</span>
         <button class="copy-btn" onclick="copyHero(this)">copy</button>
       </div>
     </div>
+    <div class="hero-comparison" id="hero-comparison">
+      <div class="hero-comparison-label">// 지금 당장 일어나고 있는 일</div>
+      <div class="hero-cmp-row">
+        <span class="hcr-bad">❌ "PostgreSQL 쓰세요"</span>
+        <span class="hcr-arrow">→</span>
+        <span class="hcr-good">✅ 5개 대안 + 숨겨진 가정 3개 노출</span>
+      </div>
+      <div class="hero-cmp-row">
+        <span class="hcr-bad">❌ "괜찮아 보입니다"</span>
+        <span class="hcr-arrow">→</span>
+        <span class="hcr-good">✅ 3벡터 공격으로 Critical 이슈 4건 발견</span>
+      </div>
+      <div class="hero-cmp-row">
+        <span class="hcr-bad">❌ 출처 없는 답변</span>
+        <span class="hcr-arrow">→</span>
+        <span class="hcr-good">✅ S/A/B/C 등급 소스 10개 교차검증</span>
+      </div>
+    </div>
     <div class="hero-stats">
       <div class="stat">
         <span class="stat-num">7</span>
-        <span class="stat-label">Meta Skills</span>
+        <span class="stat-label">메타인지 스킬</span>
       </div>
       <div class="stat">
         <span class="stat-num">+85%</span>
-        <span class="stat-label">Avg Gain</span>
+        <span class="stat-label">평균 향상</span>
       </div>
       <div class="stat">
         <span class="stat-num">MIT</span>
-        <span class="stat-label">License</span>
+        <span class="stat-label">라이선스</span>
       </div>
     </div>
   </div>
@@ -1176,25 +1251,25 @@
 <section id="problem">
   <div class="container">
     <div class="reveal">
-      <div class="section-eyebrow">// the problem</div>
-      <h2 class="section-title">Your AI is<br>thinking wrong.</h2>
-      <p class="section-desc">Not wrong answers. Wrong process. Out-of-the-box AI has hard-coded cognitive biases that no prompt can fix.</p>
+      <div class="section-eyebrow">// 문제</div>
+      <h2 class="section-title">당신의 AI는<br>생각을 잘못하고 있습니다.</h2>
+      <p class="section-desc">틀린 답이 아닙니다. 틀린 과정입니다. 기본 상태의 AI에는 어떤 프롬프트로도 고칠 수 없는 인지 편향이 내장되어 있습니다.</p>
     </div>
     <div class="problem-grid">
       <div class="problem-card reveal reveal-delay-1">
         <span class="problem-icon">⚡</span>
-        <div class="problem-title">First-answer bias</div>
-        <p class="problem-desc">Your AI picks the first plausible answer, not the best one. It optimizes for appearing helpful over being correct.</p>
+        <div class="problem-title">첫 번째 답 편향</div>
+        <p class="problem-desc">AI는 가능한 첫 번째 답을 고릅니다. 최선의 답이 아니라. 정확하기보다 도움되어 보이는 걸 최적화합니다.</p>
       </div>
       <div class="problem-card reveal reveal-delay-2">
         <span class="problem-icon">🪞</span>
-        <div class="problem-title">Sycophancy trap</div>
-        <p class="problem-desc">It agrees when it should push back. Tell it your idea is great — it'll find reasons to confirm that, even if you're wrong.</p>
+        <div class="problem-title">동의 함정</div>
+        <p class="problem-desc">반박해야 할 때 동의합니다. 당신의 아이디어가 좋다고 하면 — 틀려도 맞는 이유를 찾아냅니다.</p>
       </div>
       <div class="problem-card reveal reveal-delay-3">
         <span class="problem-icon">🌫</span>
-        <div class="problem-title">Research theater</div>
-        <p class="problem-desc">It researches by guessing, not verifying. Confident-sounding outputs with no source validation or tier grading.</p>
+        <div class="problem-title">리서치 연극</div>
+        <p class="problem-desc">검증 없이 추측으로 리서치합니다. 자신감 넘치는 출력, 하지만 소스 검증이나 등급 분류는 없습니다.</p>
       </div>
     </div>
   </div>
@@ -1204,69 +1279,69 @@
 <section id="comparison">
   <div class="container">
     <div class="reveal">
-      <div class="section-eyebrow">// before vs after</div>
-      <h2 class="section-title">The upgrade<br>is structural.</h2>
-      <p class="section-desc">Stack Skills rewires the cognitive pipeline — every interaction runs through a verified, multi-stage process.</p>
+      <div class="section-eyebrow">// 설치 전 vs 설치 후</div>
+      <h2 class="section-title">구조적<br>업그레이드.</h2>
+      <p class="section-desc">Stack Skills는 인지 파이프라인 자체를 재구성합니다. 모든 상호작용이 검증된 다단계 프로세스를 통과합니다.</p>
     </div>
     <div class="comparison-rows">
       <div class="comparison-row reveal reveal-delay-1">
         <div class="cmp-before">
-          1 safe answer<br>
-          <span style="color:var(--text-subtle);font-size:11px;">picks the obvious path</span>
+          안전한 답 1개<br>
+          <span style="color:var(--text-subtle);font-size:11px;">뻔한 길을 고릅니다</span>
           <br><span class="skill-tag">creativity-sampler</span>
         </div>
         <div class="cmp-arrow">→</div>
         <div class="cmp-after">
-          5 probability-weighted options<br>
-          <span style="color:var(--green);font-size:11px;">fights typicality bias at the root</span>
+          확률 가중치 5개 옵션<br>
+          <span style="color:var(--green);font-size:11px;">전형성 편향을 근본적으로 차단</span>
         </div>
       </div>
       <div class="comparison-row reveal reveal-delay-2">
         <div class="cmp-before">
-          "Looks good to me"<br>
-          <span style="color:var(--text-subtle);font-size:11px;">sycophantic approval</span>
+          "괜찮아 보입니다"<br>
+          <span style="color:var(--text-subtle);font-size:11px;">동의해주는 게 편하니까</span>
           <br><span class="skill-tag">adversarial-review</span>
         </div>
         <div class="cmp-arrow">→</div>
         <div class="cmp-after">
-          3-vector attack that must find problems<br>
-          <span style="color:var(--green);font-size:11px;">Devil's Advocate baked in by design</span>
+          반드시 문제를 찾는 3벡터 공격<br>
+          <span style="color:var(--green);font-size:11px;">악마의 변호인이 설계에 내장</span>
         </div>
       </div>
       <div class="comparison-row reveal reveal-delay-3">
         <div class="cmp-before">
-          Uncited claims<br>
-          <span style="color:var(--text-subtle);font-size:11px;">confident-sounding hallucination</span>
+          출처 없는 주장<br>
+          <span style="color:var(--text-subtle);font-size:11px;">자신감 넘치는 할루시네이션</span>
           <br><span class="skill-tag">cross-verified-research</span>
         </div>
         <div class="cmp-arrow">→</div>
         <div class="cmp-after">
-          4-stage verified pipeline with source grading<br>
-          <span style="color:var(--green);font-size:11px;">S/A/B/C tier, cross-referenced claims</span>
+          4단계 검증 파이프라인 + 소스 등급<br>
+          <span style="color:var(--green);font-size:11px;">S/A/B/C 티어, 교차 검증된 주장</span>
         </div>
       </div>
       <div class="comparison-row reveal reveal-delay-4">
         <div class="cmp-before">
-          Surface-level review<br>
-          <span style="color:var(--text-subtle);font-size:11px;">"the code looks correct"</span>
+          표면적 리뷰<br>
+          <span style="color:var(--text-subtle);font-size:11px;">코드가 맞아 보입니다</span>
           <br><span class="skill-tag">deep-dive-analyzer</span>
         </div>
         <div class="cmp-arrow">→</div>
         <div class="cmp-after">
-          Microscopic deconstruction across 5 lenses<br>
-          <span style="color:var(--green);font-size:11px;">nothing hidden, nothing assumed</span>
+          5개 렌즈를 통한 현미경 해부<br>
+          <span style="color:var(--green);font-size:11px;">숨겨진 것 없이, 가정 없이</span>
         </div>
       </div>
       <div class="comparison-row reveal">
         <div class="cmp-before">
-          Assumed understanding<br>
-          <span style="color:var(--text-subtle);font-size:11px;">"got it, I'll handle it"</span>
+          이해했다는 가정<br>
+          <span style="color:var(--text-subtle);font-size:11px;">알겠습니다, 처리하겠습니다</span>
           <br><span class="skill-tag">tiered-test-generator</span>
         </div>
         <div class="cmp-arrow">→</div>
         <div class="cmp-after">
-          9 tiered questions exposing knowledge gaps<br>
-          <span style="color:var(--green);font-size:11px;">from L1 recall to L9 synthesis</span>
+          지식 공백을 드러내는 9단계 문제<br>
+          <span style="color:var(--green);font-size:11px;">L1 암기부터 L9 종합까지</span>
         </div>
       </div>
     </div>
@@ -1277,9 +1352,9 @@
 <section id="demo">
   <div class="container">
     <div class="reveal">
-      <div class="section-eyebrow">// live demo</div>
-      <h2 class="section-title">See it think<br>differently.</h2>
-      <p class="section-desc">Two skills, two cognitive transformations. Watch the process in real time.</p>
+      <div class="section-eyebrow">// 라이브 데모</div>
+      <h2 class="section-title">다르게 생각하는 걸<br>직접 보세요.</h2>
+      <p class="section-desc">두 스킬, 두 가지 인지 전환. 프로세스를 실시간으로 확인하세요.</p>
     </div>
     <div class="reveal reveal-delay-1">
       <div class="demo-tabs">
@@ -1294,14 +1369,14 @@
             <div class="terminal-dot dot-red"></div>
             <div class="terminal-dot dot-yellow"></div>
             <div class="terminal-dot dot-green"></div>
-            <div class="terminal-title">claude — creativity-sampler demo</div>
+            <div class="terminal-title">claude — creativity-sampler 데모</div>
           </div>
           <div class="terminal-body" id="term-creativity">
             <div id="creativity-output"></div>
             <span class="t-cursor" id="cursor-creativity"></span>
           </div>
         </div>
-        <button class="replay-btn" onclick="replayCreativity()">↺ replay animation</button>
+        <button class="replay-btn" onclick="replayCreativity()">↺ 다시 재생</button>
       </div>
 
       <!-- ADVERSARIAL PANEL -->
@@ -1311,14 +1386,14 @@
             <div class="terminal-dot dot-red"></div>
             <div class="terminal-dot dot-yellow"></div>
             <div class="terminal-dot dot-green"></div>
-            <div class="terminal-title">claude — adversarial-review demo</div>
+            <div class="terminal-title">claude — adversarial-review 데모</div>
           </div>
           <div class="terminal-body" id="term-adversarial">
             <div id="adversarial-output"></div>
             <span class="t-cursor" id="cursor-adversarial"></span>
           </div>
         </div>
-        <button class="replay-btn" onclick="replayAdversarial()">↺ replay animation</button>
+        <button class="replay-btn" onclick="replayAdversarial()">↺ 다시 재생</button>
       </div>
     </div>
   </div>
@@ -1328,52 +1403,52 @@
 <section id="skills">
   <div class="container">
     <div class="reveal">
-      <div class="section-eyebrow">// 7 meta-cognitive skills</div>
-      <h2 class="section-title">The complete<br>stack.</h2>
-      <p class="section-desc">Each skill is a cognitive module. Install one. Install all. Stack them together.</p>
+      <div class="section-eyebrow">// 7개 메타인지 스킬</div>
+      <h2 class="section-title">완전한<br>스택.</h2>
+      <p class="section-desc">각 스킬은 인지 모듈입니다. 하나만 설치해도 됩니다. 전부 설치해도 됩니다. 조합해서 쌓으세요.</p>
     </div>
     <div class="skills-grid">
       <div class="skill-card reveal reveal-delay-1">
         <div class="skill-num">01 / 07</div>
         <div class="skill-name">cross-verified-research</div>
-        <p class="skill-desc">4-stage research pipeline with source tier grading (S/A/B/C). Cross-references claims across independent sources before committing to any output.</p>
-        <span class="skill-badge badge-research">RESEARCH</span>
+        <p class="skill-desc">4단계 리서치 파이프라인. 소스 등급(S/A/B/C) 부여, 독립 소스 간 교차 검증 후 출력.</p>
+        <span class="skill-badge badge-research">리서치</span>
       </div>
       <div class="skill-card reveal reveal-delay-2">
         <div class="skill-num">02 / 07</div>
         <div class="skill-name">creativity-sampler</div>
-        <p class="skill-desc">5 probability-weighted options that fight typicality bias. Scores each option by novelty and feasibility before surfacing the unconventional winner.</p>
-        <span class="skill-badge badge-decision">DECISION</span>
+        <p class="skill-desc">전형성 편향에 맞서는 확률 가중치 5개 옵션. 참신성과 실행 가능성을 평가한 뒤 비관습적 대안 도출.</p>
+        <span class="skill-badge badge-decision">의사결정</span>
       </div>
       <div class="skill-card reveal reveal-delay-3">
         <div class="skill-num">03 / 07</div>
         <div class="skill-name">adversarial-review</div>
-        <p class="skill-desc">3-vector Devil's Advocate attack on any decision or plan. Must find real problems — cannot return a clean pass without justification.</p>
-        <span class="skill-badge badge-review">REVIEW</span>
+        <p class="skill-desc">모든 결정에 대한 3벡터 악마의 변호인 공격. 근거 없이 통과 판정 불가.</p>
+        <span class="skill-badge badge-review">리뷰</span>
       </div>
       <div class="skill-card reveal reveal-delay-4">
         <div class="skill-num">04 / 07</div>
         <div class="skill-name">deep-dive-analyzer</div>
-        <p class="skill-desc">Microscopic deconstruction of complex systems across 5 analytical lenses. Surface assumptions, hidden dependencies, and edge cases at depth.</p>
-        <span class="skill-badge badge-analysis">ANALYSIS</span>
+        <p class="skill-desc">5개 분석 렌즈로 복잡한 시스템을 현미경 해부. 가정, 숨겨진 의존성, 엣지 케이스까지.</p>
+        <span class="skill-badge badge-analysis">분석</span>
       </div>
       <div class="skill-card reveal">
         <div class="skill-num">05 / 07</div>
         <div class="skill-name">skill-composer</div>
-        <p class="skill-desc">Multi-skill pipeline orchestration. Chain and compose skills into sequential or parallel workflows for complex, multi-stage cognitive tasks.</p>
-        <span class="skill-badge badge-meta">META</span>
+        <p class="skill-desc">다중 스킬 파이프라인 오케스트레이션. 순차/병렬 워크플로우로 복합 인지 작업 처리.</p>
+        <span class="skill-badge badge-meta">메타</span>
       </div>
       <div class="skill-card reveal reveal-delay-1">
         <div class="skill-num">06 / 07</div>
         <div class="skill-name">persona-architect</div>
-        <p class="skill-desc">Context-aware AI persona design framework. Builds structured personas with defined reasoning styles, constraints, and cognitive specializations.</p>
-        <span class="skill-badge badge-meta">META</span>
+        <p class="skill-desc">맥락 인식 AI 페르소나 설계 프레임워크. 추론 스타일, 제약 조건, 인지 전문화를 구조화.</p>
+        <span class="skill-badge badge-meta">메타</span>
       </div>
       <div class="skill-card reveal reveal-delay-2">
         <div class="skill-num">07 / 07</div>
         <div class="skill-name">tiered-test-generator</div>
-        <p class="skill-desc">Knowledge verification at multiple difficulty tiers — L1 recall to L9 synthesis. Exposes gaps in understanding that simple Q&A cannot detect.</p>
-        <span class="skill-badge badge-testing">TESTING</span>
+        <p class="skill-desc">다단계 난이도 지식 검증. L1 암기부터 L9 종합까지, 단순 Q&A로 발견 못하는 이해 공백 노출.</p>
+        <span class="skill-badge badge-testing">테스트</span>
       </div>
     </div>
   </div>
@@ -1383,22 +1458,22 @@
 <section id="benchmark">
   <div class="container">
     <div class="reveal">
-      <div class="section-eyebrow">// benchmark results</div>
-      <h2 class="section-title">Numbers that<br>don't lie.</h2>
-      <p class="section-desc">Measured across 120 tasks: research quality, decision breadth, and critical review depth.</p>
+      <div class="section-eyebrow">// 벤치마크</div>
+      <h2 class="section-title">숫자는<br>거짓말을 안 합니다.</h2>
+      <p class="section-desc">120개 태스크 측정: 리서치 품질, 의사결정 폭, 비판적 리뷰 깊이.</p>
     </div>
     <div class="benchmark-grid">
       <div class="benchmark-card reveal reveal-delay-1" data-w-before="50" data-w-after="90">
-        <div class="bm-label">Research Quality</div>
+        <div class="bm-label">리서치 품질</div>
         <div class="bm-scores">
           <div class="bm-score">
             <div class="bm-num before">5</div>
-            <div class="bm-sublabel">before</div>
+            <div class="bm-sublabel">적용 전</div>
           </div>
           <div class="bm-arrow">→</div>
           <div class="bm-score">
             <div class="bm-num after">9</div>
-            <div class="bm-sublabel">after</div>
+            <div class="bm-sublabel">적용 후</div>
           </div>
         </div>
         <span class="bm-delta">+80%</span>
@@ -1410,16 +1485,16 @@
         </div>
       </div>
       <div class="benchmark-card reveal reveal-delay-2" data-w-before="50" data-w-after="90">
-        <div class="bm-label">Decision Breadth</div>
+        <div class="bm-label">의사결정 폭</div>
         <div class="bm-scores">
           <div class="bm-score">
             <div class="bm-num before">5</div>
-            <div class="bm-sublabel">before</div>
+            <div class="bm-sublabel">적용 전</div>
           </div>
           <div class="bm-arrow">→</div>
           <div class="bm-score">
             <div class="bm-num after">9</div>
-            <div class="bm-sublabel">after</div>
+            <div class="bm-sublabel">적용 후</div>
           </div>
         </div>
         <span class="bm-delta">+80%</span>
@@ -1431,16 +1506,16 @@
         </div>
       </div>
       <div class="benchmark-card reveal reveal-delay-3" data-w-before="40" data-w-after="80">
-        <div class="bm-label">Review Depth</div>
+        <div class="bm-label">리뷰 깊이</div>
         <div class="bm-scores">
           <div class="bm-score">
             <div class="bm-num before">4</div>
-            <div class="bm-sublabel">before</div>
+            <div class="bm-sublabel">적용 전</div>
           </div>
           <div class="bm-arrow">→</div>
           <div class="bm-score">
             <div class="bm-num after">8</div>
-            <div class="bm-sublabel">after</div>
+            <div class="bm-sublabel">적용 후</div>
           </div>
         </div>
         <span class="bm-delta">+100%</span>
@@ -1453,7 +1528,7 @@
       </div>
     </div>
     <div class="benchmark-total reveal">
-      <div class="bt-label">Average across all dimensions</div>
+      <div class="bt-label">전체 차원 평균</div>
       <div class="bt-scores">
         <div class="bt-before">4.7</div>
         <div style="font-size:32px;color:var(--text-subtle);padding-bottom:8px;">→</div>
@@ -1468,15 +1543,15 @@
 <section id="install">
   <div class="container">
     <div class="reveal">
-      <div class="section-eyebrow">// get started</div>
-      <h2 class="section-title">Ready in<br>60 seconds.</h2>
-      <p class="section-desc">One command installs all 7 skills into your Claude Code environment.</p>
+      <div class="section-eyebrow">// 시작하기</div>
+      <h2 class="section-title">60초면<br>준비 완료.</h2>
+      <p class="section-desc">명령어 한 줄이면 7개 스킬이 Claude Code 환경에 설치됩니다.</p>
     </div>
     <div class="install-methods">
       <div class="install-method reveal reveal-delay-1">
         <div class="install-method-header">
-          <span class="install-method-title">// npx (recommended)</span>
-          <span class="install-method-badge badge-recommended">RECOMMENDED</span>
+          <span class="install-method-title">// npx (권장)</span>
+          <span class="install-method-badge badge-recommended">권장</span>
         </div>
         <div class="install-method-body">
           <div class="code-block">
@@ -1487,8 +1562,8 @@
       </div>
       <div class="install-method reveal reveal-delay-2">
         <div class="install-method-header">
-          <span class="install-method-title">// manual git clone</span>
-          <span class="install-method-badge badge-manual">MANUAL</span>
+          <span class="install-method-title">// 수동 설치</span>
+          <span class="install-method-badge badge-manual">수동</span>
         </div>
         <div class="install-method-body">
           <div class="code-block">
@@ -1505,10 +1580,10 @@
     <div class="install-cta reveal">
       <a href="https://github.com/whynowlab/stack-skills" target="_blank" class="btn-primary">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-        View on GitHub
+        GitHub에서 보기
       </a>
       <a href="https://github.com/whynowlab/stack-skills/blob/main/README.md" target="_blank" class="btn-secondary">
-        Read the docs →
+        문서 읽기 →
       </a>
     </div>
   </div>
@@ -1518,13 +1593,13 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-left">
-      Built by <a href="https://github.com/whynowlab" target="_blank">@thestack_ai</a> · MIT License ·
+      만든 사람 <a href="https://github.com/whynowlab" target="_blank">@thestack_ai</a> · MIT License ·
       <a href="https://github.com/whynowlab/stack-skills" target="_blank">github.com/whynowlab/stack-skills</a>
     </div>
     <div class="footer-right">
-      <a href="#hero" class="footer-link">↑ top</a>
-      <a href="https://github.com/whynowlab/stack-skills/issues" target="_blank" class="footer-link">issues</a>
-      <a href="https://github.com/whynowlab/stack-skills/blob/main/LICENSE" target="_blank" class="footer-link">license</a>
+      <a href="#hero" class="footer-link">↑ 맨 위로</a>
+      <a href="https://github.com/whynowlab/stack-skills/issues" target="_blank" class="footer-link">이슈</a>
+      <a href="https://github.com/whynowlab/stack-skills/blob/main/LICENSE" target="_blank" class="footer-link">라이선스</a>
     </div>
   </div>
 </footer>
@@ -1540,6 +1615,22 @@ const revealObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ===== HERO COMPARISON ANIMATION ===== */
+const heroCmpObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const rows = entry.target.querySelectorAll('.hero-cmp-row');
+      rows.forEach((row, i) => {
+        setTimeout(() => { row.classList.add('visible'); }, 300 + i * 150);
+      });
+      heroCmpObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+
+const heroCmp = document.getElementById('hero-comparison');
+if (heroCmp) heroCmpObserver.observe(heroCmp);
 
 /* ===== BENCHMARK BARS ===== */
 const barObserver = new IntersectionObserver((entries) => {
@@ -1674,21 +1765,21 @@ async function playCreativity() {
   const line = (html, delay) => { t += delay; return A.addLine(html, t); };
   const blank = (delay) => { t += delay; return A.addBlankLine(t); };
 
-  await line(`<span style="color:var(--text-subtle)"># meta-cognitive skill: creativity-sampler</span>`, 0);
-  await blank(100);
-  await line(`<span style="color:var(--green)">$</span> <span style="color:var(--text)">/creativity-sampler Which database for real-time analytics?</span>`, 200);
+  await line(`<span style="color:var(--text-subtle)"># 메타인지 스킬: creativity-sampler</span>`, 0);
   await blank(80);
-  await line(`<span style="color:var(--text-subtle)">⟳ Sampling probability space...</span>`, 400);
-  await blank(80);
-  await line(`<span style="color:var(--purple)">━━ OPTIONS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>`, 600);
+  await line(`<span style="color:var(--green)">$</span> <span style="color:var(--text)">/creativity-sampler Which database for real-time analytics?</span>`, 150);
   await blank(60);
+  await line(`<span style="color:var(--text-subtle)">⟳ 확률 공간 샘플링 중...</span>`, 300);
+  await blank(60);
+  await line(`<span style="color:var(--purple)">━━ 옵션 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>`, 450);
+  await blank(50);
 
   const options = [
     { n: '1', name: 'ClickHouse', p: '35%', barW: 35, color: '--accent' },
     { n: '2', name: 'TimescaleDB', p: '25%', barW: 25, color: '--accent' },
     { n: '3', name: 'Apache Druid', p: '20%', barW: 20, color: '--accent' },
     { n: '4', name: 'DuckDB + Parquet', p: '12%', barW: 12, color: '--purple' },
-    { n: '5', name: 'SQLite + cr-sqlite', p: '8%', barW: 8, color: '--orange', tag: '⚡ Unconventional' },
+    { n: '5', name: 'SQLite + cr-sqlite', p: '8%', barW: 8, color: '--orange', tag: '⚡ 비관습적' },
   ];
 
   for (const opt of options) {
@@ -1696,18 +1787,18 @@ async function playCreativity() {
     const tagHtml = opt.tag ? ` <span style="color:var(--orange);font-size:11px">${opt.tag}</span>` : '';
     await line(
       `  <span style="color:var(--text-subtle)">${opt.n}.</span> <span style="color:var(${opt.color})">${opt.name}</span>${barHtml}<span style="color:var(--text-subtle)">p ≈ ${opt.p}</span>${tagHtml}`,
-      500
+      380
     );
   }
 
-  await blank(80);
-  await line(`<span style="color:var(--purple)">━━ HIDDEN ASSUMPTIONS ━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>`, 400);
   await blank(60);
-  await line(`  <span style="color:var(--text-subtle)">→</span> <span style="color:var(--text)">"Real-time" may mean &lt;100ms query or sub-second ingest</span>`, 300);
-  await line(`  <span style="color:var(--text-subtle)">→</span> <span style="color:var(--text)">Scale: 1GB/day vs 1TB/day changes the optimal path</span>`, 300);
-  await line(`  <span style="color:var(--text-subtle)">→</span> <span style="color:var(--text)">Operational complexity budget not specified</span>`, 300);
-  await blank(60);
-  await line(`<span style="color:var(--green)">✓ Typicality bias defeated — 5 distinct paths surfaced</span>`, 400);
+  await line(`<span style="color:var(--purple)">━━ 숨겨진 가정 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>`, 300);
+  await blank(50);
+  await line(`  <span style="color:var(--text-subtle)">→</span> <span style="color:var(--text)">"실시간"이 &lt;100ms 쿼리인지 초 단위 수집인지 불명확</span>`, 250);
+  await line(`  <span style="color:var(--text-subtle)">→</span> <span style="color:var(--text)">규모: 1GB/일 vs 1TB/일이면 최적 경로가 달라짐</span>`, 250);
+  await line(`  <span style="color:var(--text-subtle)">→</span> <span style="color:var(--text)">운영 복잡도 예산 미지정</span>`, 250);
+  await blank(50);
+  await line(`<span style="color:var(--green)">✓ 전형성 편향 극복 — 5개 고유 경로 도출</span>`, 300);
 
   creativityPlayed = true;
 }
@@ -1734,57 +1825,57 @@ async function playAdversarial() {
   const line = (html, delay) => { t += delay; return A.addLine(html, t); };
   const blank = (delay) => { t += delay; return A.addBlankLine(t); };
 
-  await line(`<span style="color:var(--text-subtle)"># meta-cognitive skill: adversarial-review</span>`, 0);
-  await blank(100);
-  await line(`<span style="color:var(--green)">$</span> <span style="color:var(--text)">/adversarial-review "Migrate auth from JWT to session-based"</span>`, 200);
+  await line(`<span style="color:var(--text-subtle)"># 메타인지 스킬: adversarial-review</span>`, 0);
   await blank(80);
-  await line(`<span style="color:var(--text-subtle)">⟳ Running Devil's Advocate analysis...</span>`, 400);
-  await line(`<span style="color:var(--text-subtle)">⟳ Generating attack vectors (must find ≥3 issues)...</span>`, 600);
-  await blank(80);
+  await line(`<span style="color:var(--green)">$</span> <span style="color:var(--text)">/adversarial-review "Migrate auth from JWT to session-based"</span>`, 150);
+  await blank(60);
+  await line(`<span style="color:var(--text-subtle)">⟳ 악마의 변호인 분석 실행 중...</span>`, 300);
+  await line(`<span style="color:var(--text-subtle)">⟳ 공격 벡터 생성 중 (최소 3개 이슈 필수)...</span>`, 450);
+  await blank(60);
 
   const vectors = [
     {
-      n: '1', title: 'Scalability Regression',
+      n: '1', title: '확장성 퇴행',
       points: [
-        'Sessions require server-side storage — horizontal scaling breaks',
-        'Redis dependency introduced (single point of failure)',
-        'Sticky sessions or shared cache required for multi-instance'
+        '세션은 서버 측 저장소 필요 — 수평 확장 시 중단',
+        'Redis 의존성 추가 (단일 장애점)',
+        '멀티 인스턴스 환경에 스티키 세션 또는 공유 캐시 필요'
       ]
     },
     {
-      n: '2', title: 'Mobile Client Breakage',
+      n: '2', title: '모바일 클라이언트 파손',
       points: [
-        'Native mobile apps use HTTP-only cookies inconsistently',
-        'React Native / Expo need custom session handling',
-        'Existing JWT tokens in localStorage invalidated on cutover'
+        '네이티브 모바일 앱은 HTTP-only 쿠키 처리가 일관되지 않음',
+        'React Native / Expo는 커스텀 세션 핸들링 필요',
+        '전환 시 localStorage의 기존 JWT 토큰 무효화'
       ]
     },
     {
-      n: '3', title: 'Migration Gap Risk',
+      n: '3', title: '마이그레이션 갭 리스크',
       points: [
-        'Zero-downtime migration requires dual-auth support window',
-        'Token expiry vs session TTL semantics differ — edge cases',
-        'Logout propagation across tabs not handled by default'
+        '무중단 마이그레이션엔 이중 인증 지원 기간 필요',
+        '토큰 만료 vs 세션 TTL 의미론 차이 — 엣지 케이스 발생',
+        '탭 간 로그아웃 전파가 기본으로 처리되지 않음'
       ]
     }
   ];
 
   for (const v of vectors) {
     await line(
-      `<span style="color:var(--red);font-weight:bold">▶ ATTACK VECTOR ${v.n}: ${v.title}</span>`,
-      700
+      `<span style="color:var(--red);font-weight:bold">▶ 공격 벡터 ${v.n}: ${v.title}</span>`,
+      550
     );
     for (const point of v.points) {
-      await line(`  <span style="color:var(--text-subtle)">•</span> <span style="color:var(--text-muted)">${point}</span>`, 300);
+      await line(`  <span style="color:var(--text-subtle)">•</span> <span style="color:var(--text-muted)">${point}</span>`, 250);
     }
-    await blank(80);
+    await blank(60);
   }
 
-  await line(`<span style="color:var(--purple)">━━ VERDICT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>`, 300);
-  await blank(60);
-  await line(`<span style="color:var(--gold);font-weight:bold">⚠  CONDITIONAL PASS</span>`, 400);
-  await line(`<span style="color:var(--text-muted)">   Address Vector 1 (infra) and Vector 2 (mobile) before proceeding.</span>`, 200);
-  await line(`<span style="color:var(--text-muted)">   Vector 3 requires staged rollout plan with dual-auth window.</span>`, 200);
+  await line(`<span style="color:var(--purple)">━━ 판정 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>`, 250);
+  await blank(50);
+  await line(`<span style="color:var(--gold);font-weight:bold">⚠  조건부 통과</span>`, 350);
+  await line(`<span style="color:var(--text-muted)">   벡터 1(인프라)과 벡터 2(모바일) 해결 후 진행하세요.</span>`, 200);
+  await line(`<span style="color:var(--text-muted)">   벡터 3은 이중 인증 기간이 포함된 단계적 배포 계획 필요.</span>`, 200);
 
   adversarialPlayed = true;
 }
@@ -1817,7 +1908,6 @@ window.switchTab = function(tab) {
   } else if (tab === 'adversarial' && !adversarialPlayed) {
     setTimeout(playAdversarial, 200);
   } else if (tab === 'adversarial') {
-    // auto-play adversarial when user first switches
     adversarialPlayed = true;
     setTimeout(playAdversarial, 200);
   }
