@@ -7,6 +7,10 @@
 > Built for [Claude Code](https://claude.com/claude-code) | Compatible with [Agent Skills](https://agentskills.io) open standard
 > Created by [@thestack_ai](https://github.com/whynowlab)
 
+<p align="center">
+  <img src="assets/demo-hero.png" alt="Stack Skills Demo" width="720">
+</p>
+
 ---
 
 ## Why Stack Skills?
@@ -129,7 +133,13 @@ Same tasks, same AI model. Only difference: Stack Skills methodology applied.
 
 ## Install
 
-### Plugin Marketplace (Recommended)
+### Quick Install (npx)
+
+```bash
+npx skills add whynowlab/stack-skills --all
+```
+
+### Plugin Marketplace
 
 ```bash
 /plugin marketplace add whynowlab/stack-skills
