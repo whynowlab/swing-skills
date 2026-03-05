@@ -6,9 +6,17 @@
 
 **Stack your AI's thinking ability.**
 
-7 meta-cognitive skills that upgrade how your AI *thinks* — not just what it codes. Research deeper, decide smarter, review harder, learn faster.
+Your AI writes code fast. But does it *think* well?
 
-> Built for [Claude Code](https://claude.com/claude-code) | Compatible with [Agent Skills](https://agentskills.io) open standard
+It picks the first answer, not the best one. It agrees when it should push back. It researches by guessing, not verifying. **Stack Skills fixes that.**
+
+> 7 meta-cognitive skills that upgrade how your AI *thinks* — not just what it codes.
+
+```
+npx skills add whynowlab/stack-skills --all
+```
+
+> Built for [Claude Code](https://claude.com/claude-code) | Compatible with 41 AI agents via [Agent Skills](https://agentskills.io) open standard
 > Created by [@thestack_ai](https://github.com/whynowlab)
 
 <p align="center">
@@ -17,16 +25,27 @@
 
 ---
 
-## Why Stack Skills?
+## The Problem
 
-Most AI coding skills help you write code faster. **Stack Skills help you think better.**
+You ask your AI to choose a database. It says "use PostgreSQL" — the safe default.
 
-| What others do | What Stack Skills do |
+You ask it to review your architecture. It says "looks good" — because agreeing is easy.
+
+You ask it to research a claim. It makes up a plausible answer — and you can't tell.
+
+**Your AI is fast but shallow. Stack Skills make it slow down and actually think.**
+
+---
+
+## Before vs After
+
+| Without Stack Skills | With Stack Skills |
 |:---|:---|
-| "Generate boilerplate" | "Cross-verify this claim across 3+ sources" |
-| "Fix this lint error" | "Find the 3 strongest arguments against this architecture" |
-| "Write unit tests" | "Generate 9 tiered questions to verify my understanding" |
-| "Format this code" | "Give me 5 options, including ones you'd normally suppress" |
+| 1 safe answer | 5 options with probability weights — including ideas your AI would normally suppress |
+| "Looks good" | 3-vector attack that *must* find problems. "Looks good" is banned. |
+| Uncited claims | 4-stage verified research with source grading (S/A/B/C) |
+| Surface-level review | Microscopic deconstruction across 5 analytical lenses |
+| Assumed understanding | 9 tiered questions that expose what you actually don't know |
 
 These aren't coding shortcuts. They're **thinking upgrades.**
 
