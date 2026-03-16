@@ -10,6 +10,11 @@
   <a href="https://github.com/whynowlab/swing-skills/blob/main/LICENSE"><img src="https://img.shields.io/github/license/whynowlab/swing-skills?color=8b949e" alt="License"></a>
   <a href="https://github.com/whynowlab/swing-skills/commits/main"><img src="https://img.shields.io/github/commit-activity/m/whynowlab/swing-skills?color=58a6ff" alt="Commits"></a>
   <a href="https://x.com/thestack_ai"><img src="https://img.shields.io/badge/follow-@thestack__ai-1DA1F2?logo=x&logoColor=white" alt="Twitter"></a>
+  <br>
+  <img src="https://img.shields.io/badge/skills-6_firewalls-58a6ff" alt="6 Firewalls">
+  <img src="https://img.shields.io/badge/Claude_Code-compatible-bc8cff?logo=anthropic&logoColor=white" alt="Claude Code">
+  <img src="https://img.shields.io/badge/Codex_CLI-compatible-3fb950?logo=openai&logoColor=white" alt="Codex CLI">
+  <a href="https://github.com/whynowlab/swing-skills/pulls"><img src="https://img.shields.io/badge/PRs-welcome-3fb950" alt="PRs Welcome"></a>
 </p>
 
 <p align="right">
