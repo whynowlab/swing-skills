@@ -1,5 +1,5 @@
 ---
-name: scope-clarifier
+name: swing-clarify
 description: Prevents premature execution on ambiguous requests. Analyzes request clarity using 5W1H decomposition, surfaces hidden assumptions, and generates structured clarifying questions before work begins. Use at the start of any non-trivial task, or when a request could be interpreted multiple ways. Triggers on "뭘 원하는건지", "요구사항 정리", "clarify", "what exactly", "scope", "requirements", "정확히 뭘", "before we start".
 argument-hint: "[request or task description to clarify]"
 ---
@@ -187,9 +187,9 @@ Why this is better:
 
 ## Integration Notes
 
-- **Before everything:** scope-clarifier is designed to run FIRST. Clarified scope feeds into all other skills.
-- **With cross-verified-research:** Clarified scope → focused research questions (prevents researching the wrong thing)
-- **With adversarial-review:** Clarified scope → review against actual requirements (prevents reviewing against assumed requirements)
-- **With creativity-sampler:** Clarified constraints → better option generation (constraints define what's conventional vs unconventional)
-- **With pre-mortem:** Clarified assumptions → more specific failure scenarios
-- **With reasoning-tracer:** Clarified scope → clearer claim isolation in Stage 1 (fewer ambiguous assumptions to trace)
+- **Before everything:** swing-clarify is designed to run FIRST. Clarified scope feeds into all other skills.
+- **With swing-research:** Clarified scope → focused research questions (prevents researching the wrong thing)
+- **With swing-review:** Clarified scope → review against actual requirements (prevents reviewing against assumed requirements)
+- **With swing-options:** Clarified constraints → better option generation (constraints define what's conventional vs unconventional)
+- **With swing-mortem:** Clarified assumptions → more specific failure scenarios
+- **With swing-trace:** Clarified scope → clearer claim isolation in Stage 1 (fewer ambiguous assumptions to trace)

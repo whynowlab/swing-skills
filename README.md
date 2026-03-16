@@ -1,4 +1,4 @@
-# Stack Skills
+# Swing
 
 <p align="right">
   <a href="README.md">English</a> · <a href="README.ko.md">한국어 (Korean)</a>
@@ -6,10 +6,10 @@
 
 **Catch satisficing decisions before they ship.**
 
-Your AI picks the safe default, agrees when it should push back, cites no sources, hides its reasoning, and assumes everything will work. These are six distinct cognitive failures. Stack Skills installs a firewall against each one.
+Your AI picks the safe default, agrees when it should push back, cites no sources, hides its reasoning, and assumes everything will work. These are six distinct cognitive failures. Swing installs a firewall against each one.
 
 ```
-npx skills add whynowlab/stack-skills --all
+npx skills add whynowlab/swing-skills --all
 ```
 
 > Built for [Claude Code](https://claude.com/claude-code) | Compatible with AI agents via [Agent Skills](https://agentskills.io) open standard
@@ -25,9 +25,9 @@ npx skills add whynowlab/stack-skills --all
 >
 > **AI:** No, SQLite is not suitable for high-concurrency applications. Use PostgreSQL or MySQL instead for production workloads.
 
-### After: With `cross-verified-research`
+### After: With `swing-research`
 
-> **You:** /cross-verified-research Is SQLite viable for an app with 1000 concurrent users?
+> **You:** /swing-research Is SQLite viable for an app with 1000 concurrent users?
 >
 > **AI:** **Yes, with caveats.** 1000 concurrent users ≠ 1000 concurrent writes. Typical web apps generate ~30 concurrent write transactions at this scale. SQLite handles ~120 write transactions/sec in WAL mode (verified: sqlite.org benchmarks + Expensify production case study serving 10M+ users on SQLite). The real constraint is write contention above ~100 concurrent writers, not user count.
 >
@@ -41,9 +41,9 @@ npx skills add whynowlab/stack-skills --all
 >
 > **AI:** The code looks well-structured. Consider adding more comments and using TypeScript for better type safety. Variable naming could be improved in some places.
 
-### After: With `adversarial-review`
+### After: With `swing-review`
 
-> **You:** /adversarial-review Review this JWT auth module
+> **You:** /swing-review Review this JWT auth module
 >
 > **AI:**
 > **Steel-man:** JWT-based stateless auth was chosen for horizontal scaling. The 15-min access + 7-day refresh split balances security and UX.
@@ -62,18 +62,18 @@ npx skills add whynowlab/stack-skills --all
 
 | Cognitive Failure | What Happens | Firewall | What It Forces |
 |:---|:---|:---|:---|
-| **Premature closure** | AI rushes to execute on ambiguous requests | `scope-clarifier` | Structured clarification before execution begins |
-| **Hallucination** | AI states claims without verification | `cross-verified-research` | Source-traced, cross-verified claims with S/A/B/C tier grading |
-| **Anchoring bias** | AI locks onto the first "obvious" answer | `creativity-sampler` | 5 probability-weighted options including unconventional alternatives |
-| **Confirmation bias** | AI agrees with you instead of challenging | `adversarial-review` | Steel-man then 3-vector attack. "Looks good" is structurally banned |
-| **Black-box reasoning** | AI gives conclusions without showing why | `reasoning-tracer` | Assumption inventory and weakest-link analysis |
-| **Optimism bias** | AI assumes the plan will work | `pre-mortem` | Assumes failure, identifies 5 specific failure scenarios with circuit breakers |
+| **Premature closure** | AI rushes to execute on ambiguous requests | `swing-clarify` | Structured clarification before execution begins |
+| **Hallucination** | AI states claims without verification | `swing-research` | Source-traced, cross-verified claims with S/A/B/C tier grading |
+| **Anchoring bias** | AI locks onto the first "obvious" answer | `swing-options` | 5 probability-weighted options including unconventional alternatives |
+| **Confirmation bias** | AI agrees with you instead of challenging | `swing-review` | Steel-man then 3-vector attack. "Looks good" is structurally banned |
+| **Black-box reasoning** | AI gives conclusions without showing why | `swing-trace` | Assumption inventory and weakest-link analysis |
+| **Optimism bias** | AI assumes the plan will work | `swing-mortem` | Assumes failure, identifies 5 specific failure scenarios with circuit breakers |
 
 ---
 
 ## Skills
 
-### scope-clarifier
+### swing-clarify
 
 Prevents premature execution on ambiguous requests.
 
@@ -87,10 +87,10 @@ Request → 5W1H Decomposition → Ambiguity Score → Clarify or Proceed
 - Designed to run FIRST — before any other skill in the chain
 
 ```
-Try: /scope-clarifier Build me an auth system
+Try: /swing-clarify Build me an auth system
 ```
 
-### cross-verified-research
+### swing-research
 
 4-stage verified research pipeline with anti-hallucination safeguards.
 
@@ -104,10 +104,10 @@ Deconstruct → Search & Collect → Cross-Verify → Synthesize
 - Adaptive depth: narrow questions get 2-3 queries, broad landscape gets 8+
 
 ```
-Try: /cross-verified-research Is gRPC better than REST for mobile backends?
+Try: /swing-research Is gRPC better than REST for mobile backends?
 ```
 
-### creativity-sampler
+### swing-options
 
 Probability-weighted option generator that breaks anchoring bias.
 
@@ -117,10 +117,10 @@ Probability-weighted option generator that breaks anchoring bias.
 - Decision matrix with criteria derived from your stated constraints + 1 hidden criterion you didn't consider
 
 ```
-Try: /creativity-sampler Which database for a real-time leaderboard?
+Try: /swing-options Which database for a real-time leaderboard?
 ```
 
-### adversarial-review
+### swing-review
 
 Structured Devil's Advocate that finds real problems, not nitpicks.
 
@@ -131,10 +131,10 @@ Structured Devil's Advocate that finds real problems, not nitpicks.
 - Explicit verdict thresholds: any unmitigated Critical = FAIL
 
 ```
-Try: /adversarial-review We chose Kubernetes for our 3-person startup
+Try: /swing-review We chose Kubernetes for our 3-person startup
 ```
 
-### reasoning-tracer
+### swing-trace
 
 Makes AI reasoning visible, auditable, and decomposable.
 
@@ -145,10 +145,10 @@ Makes AI reasoning visible, auditable, and decomposable.
 - **Alternative conclusion**: "If [weakest assumption] is wrong, then the answer changes to [X]"
 
 ```
-Try: /reasoning-tracer Why do you recommend microservices for this project?
+Try: /swing-trace Why do you recommend microservices for this project?
 ```
 
-### pre-mortem
+### swing-mortem
 
 Prospective failure analysis — assumes your plan failed and works backward.
 
@@ -159,7 +159,7 @@ Prospective failure analysis — assumes your plan failed and works backward.
 - **Circuit breakers**: specific trigger conditions for when to stop and pivot
 
 ```
-Try: /pre-mortem We're migrating our monolith to microservices over Q3
+Try: /swing-mortem We're migrating our monolith to microservices over Q3
 ```
 
 ---
@@ -170,30 +170,30 @@ Try: /pre-mortem We're migrating our monolith to microservices over Q3
 
 | Your situation | Skill | Example |
 |:---|:---|:---|
-| Request is vague or has implicit assumptions | `scope-clarifier` | "Build me an auth system" → clarifies SSO? RBAC? OAuth? |
-| Researching a technology or verifying a claim | `cross-verified-research` | "Is gRPC better than REST for mobile?" |
-| Reviewing code, architecture, or a decision | `adversarial-review` | "We chose Kubernetes for our 3-person startup" |
+| Request is vague or has implicit assumptions | `swing-clarify` | "Build me an auth system" → clarifies SSO? RBAC? OAuth? |
+| Researching a technology or verifying a claim | `swing-research` | "Is gRPC better than REST for mobile?" |
+| Reviewing code, architecture, or a decision | `swing-review` | "We chose Kubernetes for our 3-person startup" |
 
 ### High-Stakes Moments
 
 | Your situation | Skill | Example |
 |:---|:---|:---|
-| Choosing between options | `creativity-sampler` | "Which database for real-time leaderboard?" |
-| Planning a project, want to de-risk | `pre-mortem` | "We're migrating to microservices in Q3" |
+| Choosing between options | `swing-options` | "Which database for real-time leaderboard?" |
+| Planning a project, want to de-risk | `swing-mortem` | "We're migrating to microservices in Q3" |
 
 ### Deep Analysis
 
 | Your situation | Skill | Example |
 |:---|:---|:---|
-| Want to see WHY the AI recommends something | `reasoning-tracer` | "Why microservices for this project?" |
-| Need full audit trail | `reasoning-tracer --full` | Architecture decision records |
+| Want to see WHY the AI recommends something | `swing-trace` | "Why microservices for this project?" |
+| Need full audit trail | `swing-trace --full` | Architecture decision records |
 
 ### Recommended Chains
 
-- **Any Task**: `scope-clarifier` → [any other skill] (always clarify first)
-- **Tech Decision**: `scope-clarifier` → `creativity-sampler` → `cross-verified-research` → `adversarial-review`
-- **Architecture Review**: `reasoning-tracer` → `adversarial-review`
-- **Project Kickoff**: `pre-mortem` → `creativity-sampler` (for mitigations)
+- **Any Task**: `swing-clarify` → [any other skill] (always clarify first)
+- **Tech Decision**: `swing-clarify` → `swing-options` → `swing-research` → `swing-review`
+- **Architecture Review**: `swing-trace` → `swing-review`
+- **Project Kickoff**: `swing-mortem` → `swing-options` (for mitigations)
 
 ---
 
@@ -205,21 +205,21 @@ Your AI's default reasoning:
   [Question] ──→ [First plausible answer] ──→ [Ship it]
 
 
-With Stack Skills:
+With Swing:
 
   [Request]
        │
-       ├──→ scope-clarifier ──→ "What EXACTLY do you need?"  (prevents premature closure)
+       ├──→ swing-clarify ──→ "What EXACTLY do you need?"  (prevents premature closure)
        │
-       ├──→ creativity-sampler ──→ "What are ALL the options?"  (breaks anchoring)
+       ├──→ swing-options ──→ "What are ALL the options?"  (breaks anchoring)
        │
-       ├──→ cross-verified-research ──→ "Is this actually true?"  (blocks hallucination)
+       ├──→ swing-research ──→ "Is this actually true?"  (blocks hallucination)
        │
-       ├──→ reasoning-tracer ──→ "WHY do I believe this?"  (exposes assumptions)
+       ├──→ swing-trace ──→ "WHY do I believe this?"  (exposes assumptions)
        │
-       ├──→ adversarial-review ──→ "What's WRONG with this?"  (kills confirmation bias)
+       ├──→ swing-review ──→ "What's WRONG with this?"  (kills confirmation bias)
        │
-       └──→ pre-mortem ──→ "HOW will this FAIL?"  (counters optimism bias)
+       └──→ swing-mortem ──→ "HOW will this FAIL?"  (counters optimism bias)
 ```
 
 Each firewall is independent — use one, or chain them.
@@ -231,7 +231,7 @@ Each firewall is independent — use one, or chain them.
 You could paste these instructions into CLAUDE.md or a system prompt. But:
 
 1. **Context efficiency** — Skills load only when triggered (~100 tokens to scan, full instructions only when invoked). A system prompt pays the token cost every message.
-2. **Composability** — Skills chain: `scope-clarifier` → `cross-verified-research` → `adversarial-review`. A monolithic prompt can't be selectively invoked.
+2. **Composability** — Skills chain: `swing-clarify` → `swing-research` → `swing-review`. A monolithic prompt can't be selectively invoked.
 3. **Portability** — `npx skills add` works across Claude Code, Cursor, Copilot. A system prompt is locked to one tool.
 4. **Community** — Skills can be shared, forked, and improved. A prompt in your dotfiles helps only you.
 
@@ -242,31 +242,31 @@ You could paste these instructions into CLAUDE.md or a system prompt. But:
 ### Quick Install (npx)
 
 ```bash
-npx skills add whynowlab/stack-skills --all
+npx skills add whynowlab/swing-skills --all
 ```
 
 ### Individual Skills
 
 ```bash
-npx skills add whynowlab/stack-skills/scope-clarifier
-npx skills add whynowlab/stack-skills/cross-verified-research
-npx skills add whynowlab/stack-skills/adversarial-review
-npx skills add whynowlab/stack-skills/creativity-sampler
-npx skills add whynowlab/stack-skills/reasoning-tracer
-npx skills add whynowlab/stack-skills/pre-mortem
+npx skills add whynowlab/swing-skills/swing-clarify
+npx skills add whynowlab/swing-skills/swing-research
+npx skills add whynowlab/swing-skills/swing-review
+npx skills add whynowlab/swing-skills/swing-options
+npx skills add whynowlab/swing-skills/swing-trace
+npx skills add whynowlab/swing-skills/swing-mortem
 ```
 
 ### Manual
 
 ```bash
-git clone https://github.com/whynowlab/stack-skills.git
-cp -r stack-skills/skills/* ~/.claude/skills/
+git clone https://github.com/whynowlab/swing-skills.git
+cp -r swing-skills/skills/* ~/.claude/skills/
 ```
 
 ### Per-Project
 
 ```bash
-cp -r stack-skills/skills/adversarial-review .claude/skills/
+cp -r swing-skills/skills/swing-review .claude/skills/
 ```
 
 ---
@@ -288,4 +288,4 @@ MIT License. See [LICENSE](LICENSE).
 
 ---
 
-**Stack Skills** by [@thestack_ai](https://github.com/whynowlab) — 6 cognitive firewalls for your AI.
+**Swing** by [@thestack_ai](https://github.com/whynowlab) — 6 cognitive firewalls for your AI.

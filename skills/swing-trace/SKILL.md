@@ -1,5 +1,5 @@
 ---
-name: reasoning-tracer
+name: swing-trace
 description: Exposes Claude's reasoning chain as an auditable, decomposable artifact. Quick mode (default) gives assumption inventory + weakest-link in 2 stages. Full mode (--full) adds decision branching, confidence decomposition, and falsification conditions. Triggers on "왜 그렇게 생각해", "reasoning", "근거", "show your work", "어떻게 그 결론이", "trace", "판단 근거", "why do you think that".
 argument-hint: "[question to trace] [--full for complete 5-stage analysis]"
 allowed-tools: Read, Grep, Glob, Bash, Agent
@@ -335,17 +335,17 @@ but heavily weighted)
 ## When NOT to Use
 
 - Simple factual lookups with clear answers ("What port does Postgres use?")
-- Creative brainstorming where structured reasoning kills ideation (use `creativity-sampler`)
+- Creative brainstorming where structured reasoning kills ideation (use `swing-options`)
 - When the user wants a quick answer and explicitly says so
 - Exhaustive code/system analysis without a specific claim to trace (use `deep-dive-analyzer`)
-- Stress-testing someone else's reasoning (use `adversarial-review` -- it attacks; this skill *exposes*)
-- Research requiring external source verification (use `cross-verified-research` for facts; this skill traces *reasoning about* facts)
+- Stress-testing someone else's reasoning (use `swing-review` -- it attacks; this skill *exposes*)
+- Research requiring external source verification (use `swing-research` for facts; this skill traces *reasoning about* facts)
 
 ## Integration Notes
 
-- **With scope-clarifier:** Run scope-clarifier first on ambiguous requests before invoking this skill. Clarified scope produces better results.
-- **Before adversarial-review:** Trace your reasoning first, then stress-test it. The assumption inventory from reasoning-tracer feeds directly into adversarial-review's attack vectors.
-- **After cross-verified-research:** Research gathers verified facts; reasoning-tracer then makes the *logic connecting those facts to a conclusion* transparent.
-- **With creativity-sampler:** When creativity-sampler generates options, reasoning-tracer can trace why one option was selected over others.
-- **With deep-dive-analyzer:** Deep-dive produces exhaustive understanding; reasoning-tracer adds the "so what" -- why that understanding leads to a specific conclusion.
-- **With skill-composer:** Common pipeline: `cross-verified-research` -> `reasoning-tracer` -> `adversarial-review` (gather facts -> trace reasoning -> stress-test conclusion).
+- **With swing-clarify:** Run swing-clarify first on ambiguous requests before invoking this skill. Clarified scope produces better results.
+- **Before swing-review:** Trace your reasoning first, then stress-test it. The assumption inventory from swing-trace feeds directly into swing-review's attack vectors.
+- **After swing-research:** Research gathers verified facts; swing-trace then makes the *logic connecting those facts to a conclusion* transparent.
+- **With swing-options:** When swing-options generates options, swing-trace can trace why one option was selected over others.
+- **With deep-dive-analyzer:** Deep-dive produces exhaustive understanding; swing-trace adds the "so what" -- why that understanding leads to a specific conclusion.
+- **With skill-composer:** Common pipeline: `swing-research` -> `swing-trace` -> `swing-review` (gather facts -> trace reasoning -> stress-test conclusion).

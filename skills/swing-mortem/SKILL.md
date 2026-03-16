@@ -1,6 +1,6 @@
 ---
-name: pre-mortem
-description: Prospective failure analysis using Gary Klein's pre-mortem technique. Assumes complete failure, works backward to identify risks, leading indicators, and circuit breakers. Counters optimism bias by forcing systematic exploration of failure modes before they materialize. Use for project plans, architecture decisions, technology adoption, business strategy, or feature launches. Triggers on "리스크", "위험", "실패하면", "pre-mortem", "뭐가 잘못될 수 있어", "risk", "what could go wrong", "걱정되는 점", "failure modes", "리스크 분석", "위험 분석".
+name: swing-mortem
+description: Prospective failure analysis using Gary Klein's swing-mortem technique. Assumes complete failure, works backward to identify risks, leading indicators, and circuit breakers. Counters optimism bias by forcing systematic exploration of failure modes before they materialize. Use for project plans, architecture decisions, technology adoption, business strategy, or feature launches. Triggers on "리스크", "위험", "실패하면", "swing-mortem", "뭐가 잘못될 수 있어", "risk", "what could go wrong", "걱정되는 점", "failure modes", "리스크 분석", "위험 분석".
 argument-hint: "[plan, decision, or initiative to stress-test for future failure]"
 allowed-tools: Read, Grep, Glob, Bash, Agent
 ---
@@ -9,11 +9,11 @@ allowed-tools: Read, Grep, Glob, Bash, Agent
 
 Prospective failure analysis that defeats optimism bias by assuming failure first, then working backward to surface risks, early warnings, and escape hatches.
 
-**Based on Gary Klein's pre-mortem technique:** Instead of asking "will this work?" (which triggers optimism bias), this skill forces the question: "It's 6 months from now and this has completely failed. What went wrong?"
+**Based on Gary Klein's swing-mortem technique:** Instead of asking "will this work?" (which triggers optimism bias), this skill forces the question: "It's 6 months from now and this has completely failed. What went wrong?"
 
-**Key distinction from adversarial-review:**
-- `adversarial-review` examines the **CURRENT** state — "what's wrong NOW?"
-- `pre-mortem` examines the **FUTURE** — "what will go wrong LATER?"
+**Key distinction from swing-review:**
+- `swing-review` examines the **CURRENT** state — "what's wrong NOW?"
+- `swing-mortem` examines the **FUTURE** — "what will go wrong LATER?"
 - Adversarial review finds existing flaws. Pre-mortem anticipates flaws that don't exist yet.
 
 
@@ -23,7 +23,7 @@ Prospective failure analysis that defeats optimism bias by assuming failure firs
 2. **Exactly 5 scenarios across 5 categories.** One Technical, one Organizational, one External, one Temporal, one Assumption. No category may be skipped, no category may have more than one scenario.
 3. **Leading indicators must be observable and measurable.** "Watch out for problems" is banned. Every indicator must specify what to measure, what threshold signals danger, and where to observe it.
 4. **Circuit breakers must include a specific trigger condition.** "If things go wrong" is banned. Every trigger must be a measurable condition with a concrete threshold.
-5. **The pre-mortem summary is MANDATORY.** It is the BLUF of the analysis. It must appear at the end and synthesize the highest risk, its leading indicator, and its escape hatch in one paragraph.
+5. **The swing-mortem summary is MANDATORY.** It is the BLUF of the analysis. It must appear at the end and synthesize the highest risk, its leading indicator, and its escape hatch in one paragraph.
 6. **Assume complete failure.** Not partial, not "underperformance." The premise is total failure. This extreme framing is what forces creative risk identification — do not soften it.
 7. **Specificity over coverage.** One deeply analyzed, plausible failure scenario per category is worth more than five shallow ones. Depth beats breadth.
 
@@ -289,7 +289,7 @@ The highest risk to [subject] is [X]. You'll know it's happening when [Y]. Your 
 - Leading indicators are unmeasurable platitudes ("watch out for", "keep an eye on")
 - Circuit breakers have no trigger thresholds and no concrete fallbacks
 - "Have more meetings" is not a circuit breaker — it's a coping mechanism
-- No risk matrix, no priority ranking, no pre-mortem summary
+- No risk matrix, no priority ranking, no swing-mortem summary
 
 ### GOOD Pre-Mortem (Do This)
 
@@ -391,19 +391,19 @@ before any projected traffic event exceeding 3x baseline.
 
 ## When NOT to Use
 
-- For existing flaws in current code (use `adversarial-review` — it examines what's wrong NOW)
-- For comparing technology options (use `cross-verified-research` — it gathers facts, not failure scenarios)
-- For generating creative alternatives (use `creativity-sampler` — different cognitive mode)
+- For existing flaws in current code (use `swing-review` — it examines what's wrong NOW)
+- For comparing technology options (use `swing-research` — it gathers facts, not failure scenarios)
+- For generating creative alternatives (use `swing-options` — different cognitive mode)
 - For routine code review (use `engineering:code-review`)
 - When the decision is trivially reversible (low stakes don't justify the analysis)
 - When the team needs encouragement, not caution (read the room)
 
 ## Integration Notes
 
-- **With scope-clarifier:** Run scope-clarifier first on ambiguous requests before invoking this skill. Clarified scope produces better results.
-- **With adversarial-review:** Complementary, not overlapping. Run `pre-mortem` first to anticipate future risks, then `adversarial-review` on the current implementation to find existing flaws. Together they cover temporal risk: future (pre-mortem) + present (adversarial).
-- **With cross-verified-research:** When a pre-mortem scenario depends on uncertain facts (e.g., "will Kafka handle this load?"), invoke `cross-verified-research` to verify the factual basis before rating likelihood.
-- **With creativity-sampler:** After pre-mortem reveals high-priority risks, use `creativity-sampler` to generate alternative approaches that avoid the top failure modes entirely.
-- **With deep-dive-analyzer:** For complex systems, run `deep-dive-analyzer` first to understand the full architecture, then `pre-mortem` to identify where it could fail. Understanding precedes risk analysis.
-- **With skill-composer:** Chain as `deep-dive-analyzer` → `pre-mortem` → `creativity-sampler` for a full "understand → anticipate failure → generate alternatives" pipeline.
+- **With swing-clarify:** Run swing-clarify first on ambiguous requests before invoking this skill. Clarified scope produces better results.
+- **With swing-review:** Complementary, not overlapping. Run `swing-mortem` first to anticipate future risks, then `swing-review` on the current implementation to find existing flaws. Together they cover temporal risk: future (swing-mortem) + present (adversarial).
+- **With swing-research:** When a swing-mortem scenario depends on uncertain facts (e.g., "will Kafka handle this load?"), invoke `swing-research` to verify the factual basis before rating likelihood.
+- **With swing-options:** After swing-mortem reveals high-priority risks, use `swing-options` to generate alternative approaches that avoid the top failure modes entirely.
+- **With deep-dive-analyzer:** For complex systems, run `deep-dive-analyzer` first to understand the full architecture, then `swing-mortem` to identify where it could fail. Understanding precedes risk analysis.
+- **With skill-composer:** Chain as `deep-dive-analyzer` → `swing-mortem` → `swing-options` for a full "understand → anticipate failure → generate alternatives" pipeline.
 - **With orchestrator strategy team:** Pre-mortem output feeds directly into the strategy team's Devil's Advocate agent for additional stress-testing of the risk assessment itself.

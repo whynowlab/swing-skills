@@ -1,5 +1,5 @@
 ---
-name: creativity-sampler
+name: swing-options
 description: Generate probability-weighted alternative options that challenge default thinking. Forces unconventional alternatives and exposes hidden assumptions behind the "obvious" choice. For decision-point analysis, NOT full design exploration (use brainstorming for that). Triggers on "대안", "alternatives", "옵션 뽑아", "options", "어떤 방법이", "아이디어", "다른 방법", "선택지".
 argument-hint: "[decision or question to explore]"
 ---
@@ -200,17 +200,17 @@ Why this is better:
 
 ## When NOT to Use
 
-- Factual questions with one correct answer (use `cross-verified-research`)
+- Factual questions with one correct answer (use `swing-research`)
 - Tasks with clear requirements and no decision points
 - Simple implementation where the approach is obvious and uncontested
 - When user has already decided and just wants execution
 
 ## Integration Notes
 
-- **With scope-clarifier:** Run scope-clarifier first on ambiguous requests before invoking this skill. Clarified scope produces better results.
+- **With swing-clarify:** Run swing-clarify first on ambiguous requests before invoking this skill. Clarified scope produces better results.
 - **With brainstorming:** Can replace the "Propose 2-3 approaches" phase with deeper divergent options
-- **With adversarial-review:** Feed the chosen option into adversarial review for stress-testing
-- **Standalone:** Invoke directly with `/creativity-sampler [question]` for quick decision support
+- **With swing-review:** Feed the chosen option into adversarial review for stress-testing
+- **Standalone:** Invoke directly with `/swing-options [question]` for quick decision support
 
 ## Anti-Patterns to Avoid
 

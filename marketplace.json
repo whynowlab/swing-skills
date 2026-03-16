@@ -1,0 +1,18 @@
+{
+  "$schema": "https://cdn.agentskills.io/schemas/marketplace-v1.json",
+  "name": "swing-skills",
+  "version": "3.1.0",
+  "display_name": "Swing",
+  "description": "6 cognitive firewalls for AI coding agents. Defends against premature closure, hallucination, anchoring bias, confirmation bias, black-box reasoning, and optimism bias.",
+  "author": "thestack_ai",
+  "owner": "whynowlab",
+  "homepage": "https://github.com/whynowlab/swing-skills",
+  "plugins": [
+    {
+      "name": "swing-skills",
+      "description": "6 cognitive firewalls — swing-clarify, swing-research, swing-review, swing-options, swing-trace, and swing-mortem.",
+      "skills_path": "skills",
+      "source": "https://github.com/whynowlab/swing-skills"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 ---
-name: cross-verified-research
+name: swing-research
 description: Deep research with cross-verification and source tiering. Use when investigating technologies, comparing tools, fact-checking claims, evaluating architectures, or any task requiring verified information. Triggers on "조사해줘", "리서치", "research", "investigate", "fact-check", "비교 분석", "검증해줘".
 argument-hint: "[topic or question to research]"
 allowed-tools: WebSearch, WebFetch, Read, Grep, Glob, Bash, Agent
@@ -258,14 +258,14 @@ Classify every source on discovery.
 
 ## When NOT to Use
 
-- Creative writing or brainstorming (use `creativity-sampler`)
+- Creative writing or brainstorming (use `swing-options`)
 - Code implementation (use `search-first` for library discovery)
 - Simple questions answerable from internal knowledge with high confidence
 - Opinion-based questions with no verifiable answer
 
 ## Integration Notes
 
-- **With scope-clarifier:** Run scope-clarifier first on ambiguous requests before invoking this skill. Clarified scope produces better results.
+- **With swing-clarify:** Run swing-clarify first on ambiguous requests before invoking this skill. Clarified scope produces better results.
 - **With brainstorming:** Can be invoked during brainstorming's "Explore context" phase for fact-based inputs
 - **With search-first:** search-first finds tools/libraries to USE; this skill VERIFIES factual claims. Different purposes.
-- **With adversarial-review:** Research findings can feed into adversarial review for stress-testing conclusions
+- **With swing-review:** Research findings can feed into adversarial review for stress-testing conclusions
