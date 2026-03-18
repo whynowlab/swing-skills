@@ -1,2261 +1,1559 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="AI가 코드를 쓰는 방식이 아니라, 생각하는 방식을 업그레이드하는 7개 메타인지 스킬">
-<meta property="og:title" content="Stack Skills — AI의 사고력을 쌓아올리다">
-<meta property="og:description" content="AI가 코드를 쓰는 방식이 아니라, 생각하는 방식을 업그레이드하는 7개 메타인지 스킬">
-<meta property="og:type" content="website">
-<meta property="og:image" content="https://raw.githubusercontent.com/whynowlab/stack-skills/main/assets/demo-hero.png">
-<meta property="og:url" content="https://whynowlab.github.io/stack-skills/">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Stack Skills — AI의 사고력을 쌓아올리다">
-<meta name="twitter:description" content="AI가 코드를 쓰는 방식이 아니라, 생각하는 방식을 업그레이드하는 7개 메타인지 스킬">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/whynowlab/stack-skills/main/assets/demo-hero.png">
-<title>Stack Skills — AI의 사고력을 쌓아올리다</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-  /* ===== RESET & BASE ===== */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #0d1117;
-    --bg2: #161b22;
-    --bg3: #21262d;
-    --border: #30363d;
-    --border-bright: #484f58;
-    --text: #e6edf3;
-    --text-muted: #8b949e;
-    --text-subtle: #6e7681;
-    --accent: #58a6ff;
-    --accent-dim: #1f6feb;
-    --green: #3fb950;
-    --green-dim: #238636;
-    --red: #f85149;
-    --yellow: #d29922;
-    --gold: #e3b341;
-    --purple: #bc8cff;
-    --orange: #ffa657;
-    --cyan: #39d353;
-    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
-    --font-display: 'Syne', sans-serif;
-    --radius: 8px;
-    --radius-lg: 12px;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font-display);
-    font-size: 16px;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-
-  /* ===== SCROLLBAR ===== */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 3px; }
-
-  /* ===== NAV ===== */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 14px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: rgba(13,17,23,0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .nav-logo {
-    font-family: var(--font-mono);
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--text);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .nav-logo .prompt { color: var(--green); }
-  .nav-logo .cursor {
-    display: inline-block;
-    width: 8px; height: 14px;
-    background: var(--green);
-    animation: blink 1.2s step-end infinite;
-    vertical-align: middle;
-  }
-
-  @keyframes blink { 50% { opacity: 0; } }
-
-  .nav-links {
-    display: flex;
-    gap: 24px;
-    list-style: none;
-  }
-
-  .nav-links a {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--text-muted);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .nav-links a:hover { color: var(--text); }
-
-  .nav-cta {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    padding: 6px 14px;
-    background: var(--green-dim);
-    color: var(--text);
-    border: 1px solid var(--green);
-    border-radius: var(--radius);
-    text-decoration: none;
-    transition: all 0.2s;
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
-  }
-
-  .nav-cta:hover { background: var(--green); color: #000; }
-
-  /* ===== SECTIONS ===== */
-  section { padding: 100px 24px; }
-  .container { max-width: 1100px; margin: 0 auto; }
-
-  /* ===== HERO ===== */
-  #hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding-top: 80px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* A.1 — Animated gradient mesh */
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-  }
-
-  .hero-bg::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(31,111,235,0.14) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 40% at 80% 80%, rgba(63,185,80,0.07) 0%, transparent 60%);
-    animation: meshShift 12s ease-in-out infinite alternate;
-  }
-
-  .hero-bg::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 50% 50% at 20% 60%, rgba(188,140,255,0.05) 0%, transparent 60%),
-      radial-gradient(ellipse 35% 35% at 70% 20%, rgba(88,166,255,0.06) 0%, transparent 55%);
-    animation: meshShift2 16s ease-in-out infinite alternate;
-  }
-
-  @keyframes meshShift {
-    0%   { transform: translate(0, 0) scale(1); }
-    33%  { transform: translate(-20px, 15px) scale(1.03); }
-    66%  { transform: translate(15px, -10px) scale(0.98); }
-    100% { transform: translate(-10px, 20px) scale(1.02); }
-  }
-
-  @keyframes meshShift2 {
-    0%   { transform: translate(0, 0) scale(1); }
-    50%  { transform: translate(25px, -18px) scale(1.05); }
-    100% { transform: translate(-15px, 12px) scale(0.97); }
-  }
-
-  .hero-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(var(--border) 1px, transparent 1px),
-      linear-gradient(90deg, var(--border) 1px, transparent 1px);
-    background-size: 60px 60px;
-    opacity: 0.15;
-    pointer-events: none;
-    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 80%);
-  }
-
-  .hero-content { position: relative; z-index: 1; }
-
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--green);
-    background: rgba(63,185,80,0.08);
-    border: 1px solid rgba(63,185,80,0.25);
-    border-radius: 20px;
-    padding: 5px 14px;
-    margin-bottom: 32px;
-    animation: fadeSlideIn 0.6s ease both;
-  }
-
-  .hero-badge .dot {
-    width: 6px; height: 6px;
-    background: var(--green);
-    border-radius: 50%;
-    animation: pulse 2s ease infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(0.8); }
-  }
-
-  h1.hero-title {
-    font-family: var(--font-display);
-    font-size: clamp(52px, 8vw, 96px);
-    font-weight: 800;
-    line-height: 0.95;
-    letter-spacing: -3px;
-    margin-bottom: 8px;
-    animation: fadeSlideIn 0.6s 0.1s ease both;
-  }
-
-  .hero-title .stack { color: var(--text); }
-  .hero-title .skills {
-    background: linear-gradient(135deg, var(--accent), var(--purple));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .hero-tagline {
-    font-family: var(--font-mono);
-    font-size: clamp(14px, 2vw, 18px);
-    color: var(--green);
-    margin-bottom: 24px;
-    animation: fadeSlideIn 0.6s 0.2s ease both;
-  }
-
-  .hero-tagline::before { content: '> '; }
-
-  .hero-subtitle {
-    font-size: clamp(16px, 2vw, 20px);
-    color: var(--text-muted);
-    max-width: 620px;
-    line-height: 1.5;
-    margin-bottom: 48px;
-    animation: fadeSlideIn 0.6s 0.3s ease both;
-  }
-
-  .install-block {
-    animation: fadeSlideIn 0.6s 0.4s ease both;
-  }
-
-  .install-label {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-subtle);
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 10px;
-  }
-
-  .install-cmd {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 16px 20px;
-    max-width: 560px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .install-cmd::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--accent-dim), transparent);
-  }
-
-  .install-prompt {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    color: var(--green);
-    margin-right: 10px;
-    flex-shrink: 0;
-  }
-
-  .install-text {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    color: var(--text);
-    flex: 1;
-    word-break: break-all;
-  }
-
-  /* C.8 — Copy button with checkmark flash */
-  .copy-btn {
-    flex-shrink: 0;
-    margin-left: 12px;
-    padding: 6px 12px;
-    min-height: 44px;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .copy-btn.copied {
-    border-color: var(--green);
-    color: var(--green);
-    animation: copyFlash 0.4s ease;
-  }
-
-  @keyframes copyFlash {
-    0%   { background: rgba(63,185,80,0.25); }
-    100% { background: var(--bg3); }
-  }
-
-  /* ===== HERO COMPARISON — A.2 staggered typewriter ===== */
-  .hero-comparison {
-    margin-top: 40px;
-    animation: fadeSlideIn 0.6s 0.55s ease both;
-    max-width: 680px;
-  }
-
-  .hero-comparison-label {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-subtle);
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 12px;
-  }
-
-  .hero-cmp-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 14px;
-    border-radius: 8px;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    margin-bottom: 8px;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    line-height: 1.4;
-    opacity: 0;
-    transform: translateX(-16px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    position: relative;
-    overflow: hidden;
-    /* Left border accent */
-    border-left: 3px solid transparent;
-  }
-
-  .hero-cmp-row::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    border-radius: 0;
-  }
-
-  /* Green accent for rows that have a ✅ good side */
-  .hero-cmp-row.visible {
-    opacity: 1;
-    transform: translateX(0);
-    border-left-color: rgba(63,185,80,0.5);
-  }
-
-  .hero-cmp-row:nth-child(2) { transition-delay: 0.1s; }
-  .hero-cmp-row:nth-child(3) { transition-delay: 0.2s; }
-  .hero-cmp-row:nth-child(4) { transition-delay: 0.3s; }
-
-  .hcr-bad {
-    color: var(--red);
-    flex-shrink: 0;
-  }
-
-  .hcr-arrow {
-    color: var(--text-subtle);
-    flex-shrink: 0;
-  }
-
-  .hcr-good {
-    color: var(--green);
-  }
-
-  .hero-stats {
-    display: flex;
-    gap: 40px;
-    margin-top: 40px;
-    animation: fadeSlideIn 0.6s 0.65s ease both;
-  }
-
-  .stat {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  /* C.7 — Count-up stat numbers */
-  .stat-num {
-    font-family: var(--font-display);
-    font-size: 28px;
-    font-weight: 800;
-    color: var(--accent);
-  }
-
-  .stat-label {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-subtle);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  /* ===== ANIMATIONS ===== */
-  @keyframes fadeSlideIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .reveal-delay-1 { transition-delay: 0.1s; }
-  .reveal-delay-2 { transition-delay: 0.2s; }
-  .reveal-delay-3 { transition-delay: 0.3s; }
-  .reveal-delay-4 { transition-delay: 0.4s; }
-
-  /* ===== SECTION HEADERS ===== */
-  .section-eyebrow {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--accent);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 12px;
-  }
-
-  .section-title {
-    font-family: var(--font-display);
-    font-size: clamp(32px, 5vw, 52px);
-    font-weight: 800;
-    letter-spacing: -1.5px;
-    line-height: 1.1;
-    margin-bottom: 20px;
-  }
-
-  .section-desc {
-    font-size: 18px;
-    color: var(--text-muted);
-    max-width: 600px;
-    line-height: 1.6;
-  }
-
-  /* ===== PROBLEM SECTION ===== */
-  #problem {
-    background: var(--bg);
-    border-top: 1px solid var(--border);
-  }
-
-  .problem-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    margin-top: 60px;
-  }
-
-  /* A.4 — Card hover glow with radial gradient */
-  .problem-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 28px;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
-  }
-
-  .problem-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: var(--radius-lg);
-    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(248,81,73,0.08) 0%, transparent 60%);
-    opacity: 0;
-    transition: opacity 0.3s;
-    pointer-events: none;
-  }
-
-  .problem-card:hover {
-    border-color: var(--red);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(248,81,73,0.12), 0 0 0 1px rgba(248,81,73,0.1);
-  }
-
-  .problem-card:hover::after { opacity: 1; }
-
-  .problem-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--red), transparent);
-    opacity: 0;
-    transition: opacity 0.3s;
-    z-index: 1;
-  }
-
-  .problem-card:hover::before { opacity: 1; }
-
-  .problem-icon {
-    font-size: 28px;
-    margin-bottom: 16px;
-    display: block;
-  }
-
-  .problem-title {
-    font-family: var(--font-display);
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 10px;
-  }
-
-  .problem-desc {
-    font-size: 14px;
-    color: var(--text-muted);
-    line-height: 1.6;
-  }
-
-  /* ===== BEFORE/AFTER ===== */
-  #comparison {
-    background: var(--bg2);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .comparison-rows {
-    margin-top: 60px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .comparison-row {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    gap: 16px;
-    align-items: center;
-  }
-
-  .cmp-before, .cmp-after {
-    padding: 16px 20px;
-    border-radius: var(--radius);
-    font-family: var(--font-mono);
-    font-size: 13px;
-    line-height: 1.5;
-  }
-
-  .cmp-before {
-    background: rgba(248,81,73,0.06);
-    border: 1px solid rgba(248,81,73,0.2);
-    color: var(--text-muted);
-    position: relative;
-  }
-
-  .cmp-before::before {
-    content: '✗ 스킬 없이';
-    display: block;
-    font-size: 10px;
-    color: var(--red);
-    letter-spacing: 1px;
-    margin-bottom: 8px;
-    font-weight: 700;
-  }
-
-  .cmp-after {
-    background: rgba(63,185,80,0.06);
-    border: 1px solid rgba(63,185,80,0.2);
-    color: var(--text);
-    position: relative;
-  }
-
-  .cmp-after::before {
-    content: '✓ 스킬 적용 후';
-    display: block;
-    font-size: 10px;
-    color: var(--green);
-    letter-spacing: 1px;
-    margin-bottom: 8px;
-    font-weight: 700;
-  }
-
-  .cmp-arrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px; height: 36px;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 50%;
-    color: var(--accent);
-    font-size: 14px;
-    flex-shrink: 0;
-  }
-
-  .skill-tag {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    padding: 3px 8px;
-    background: rgba(88,166,255,0.1);
-    border: 1px solid rgba(88,166,255,0.2);
-    border-radius: 4px;
-    color: var(--accent);
-    margin-top: 10px;
-    display: inline-block;
-  }
-
-  /* ===== TERMINAL DEMO ===== */
-  #demo {
-    background: var(--bg);
-    border-top: 1px solid var(--border);
-  }
-
-  .demo-tabs {
-    display: flex;
-    gap: 0;
-    margin-top: 48px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .demo-tab {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    padding: 10px 20px;
-    cursor: pointer;
-    color: var(--text-muted);
-    border-bottom: 2px solid transparent;
-    margin-bottom: -1px;
-    transition: all 0.2s;
-    background: none;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-radius: 0;
-    min-height: 44px;
-  }
-
-  .demo-tab:hover { color: var(--text); }
-  .demo-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-
-  .demo-panel { display: none; }
-  .demo-panel.active { display: block; }
-
-  .terminal-window {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    margin-top: 24px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-  }
-
-  .terminal-header {
-    background: var(--bg3);
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .terminal-dot {
-    width: 12px; height: 12px;
-    border-radius: 50%;
-  }
-
-  .dot-red { background: #ff5f57; }
-  .dot-yellow { background: #febc2e; }
-  .dot-green { background: #28c840; }
-
-  .terminal-title {
-    flex: 1;
-    text-align: center;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--text-subtle);
-    margin-left: -50px;
-  }
-
-  .terminal-body {
-    padding: 24px;
-    font-family: var(--font-mono);
-    font-size: 13px;
-    line-height: 1.8;
-    min-height: 320px;
-    position: relative;
-  }
-
-  .t-prompt { color: var(--green); }
-  .t-cmd { color: var(--text); }
-  .t-comment { color: var(--text-subtle); }
-  .t-output { color: var(--text-muted); }
-  .t-key { color: var(--accent); }
-  .t-val { color: var(--orange); }
-  .t-label { color: var(--purple); }
-  .t-red { color: var(--red); }
-  .t-gold { color: var(--gold); }
-  .t-green { color: var(--green); }
-  .t-cyan { color: var(--cyan); }
-
-  .terminal-line {
-    display: flex;
-    gap: 0;
-    opacity: 0;
-    transition: opacity 0.1s;
-  }
-
-  .terminal-line.visible { opacity: 1; }
-
-  .t-cursor {
-    display: inline-block;
-    width: 7px; height: 13px;
-    background: var(--green);
-    animation: blink 1s step-end infinite;
-    vertical-align: text-bottom;
-    margin-left: 1px;
-  }
-
-  /* B.6 — Probability bars animate from 0 with cubic-bezier */
-  .option-bar {
-    display: inline-block;
-    height: 10px;
-    background: var(--accent);
-    border-radius: 2px;
-    margin: 0 6px;
-    vertical-align: middle;
-    width: 0;
-    transition: width 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .option-bar.animated {
-    /* width set via JS */
-  }
-
-  .replay-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 20px;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--text-muted);
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 8px 14px;
-    min-height: 44px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .replay-btn:hover { color: var(--accent); border-color: var(--accent); }
-
-  /* ===== SKILLS GRID ===== */
-  #skills {
-    background: var(--bg2);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 16px;
-    margin-top: 60px;
-  }
-
-  /* A.4 + C.9 — Card hover glow + shimmer */
-  .skill-card {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 28px;
-    cursor: default;
-    transition: all 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* Shimmer effect layer */
-  .skill-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 60%;
-    height: 100%;
-    background: linear-gradient(
-      105deg,
-      transparent 30%,
-      rgba(255,255,255,0.04) 50%,
-      transparent 70%
-    );
-    pointer-events: none;
-    transition: left 0s;
-  }
-
-  .skill-card:hover::before {
-    left: 160%;
-    transition: left 0.6s ease;
-  }
-
-  /* Radial glow on border */
-  .skill-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: var(--radius-lg);
-    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(88,166,255,0.06) 0%, transparent 65%);
-    opacity: 0;
-    transition: opacity 0.3s;
-    pointer-events: none;
-  }
-
-  .skill-card:hover {
-    border-color: var(--accent-dim);
-    transform: translateY(-4px);
-    box-shadow:
-      0 12px 40px rgba(31,111,235,0.15),
-      0 0 0 1px rgba(88,166,255,0.15);
-  }
-
-  .skill-card:hover::after { opacity: 1; }
-
-  .skill-num {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-subtle);
-    margin-bottom: 16px;
-  }
-
-  .skill-name {
-    font-family: var(--font-mono);
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--accent);
-    margin-bottom: 10px;
-  }
-
-  .skill-name::before { content: '/'; color: var(--text-subtle); }
-
-  .skill-desc {
-    font-size: 13px;
-    color: var(--text-muted);
-    line-height: 1.6;
-  }
-
-  .skill-badge {
-    display: inline-block;
-    margin-top: 14px;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    padding: 3px 8px;
-    border-radius: 4px;
-    font-weight: 700;
-  }
-
-  .badge-research { background: rgba(88,166,255,0.12); color: var(--accent); border: 1px solid rgba(88,166,255,0.25); }
-  .badge-decision { background: rgba(188,140,255,0.12); color: var(--purple); border: 1px solid rgba(188,140,255,0.25); }
-  .badge-review { background: rgba(248,81,73,0.12); color: var(--red); border: 1px solid rgba(248,81,73,0.25); }
-  .badge-analysis { background: rgba(210,153,34,0.12); color: var(--gold); border: 1px solid rgba(210,153,34,0.25); }
-  .badge-meta { background: rgba(57,211,83,0.12); color: var(--cyan); border: 1px solid rgba(57,211,83,0.25); }
-  .badge-testing { background: rgba(255,166,87,0.12); color: var(--orange); border: 1px solid rgba(255,166,87,0.25); }
-
-  /* ===== BENCHMARK ===== */
-  #benchmark {
-    background: var(--bg);
-    border-top: 1px solid var(--border);
-  }
-
-  .benchmark-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 24px;
-    margin-top: 60px;
-  }
-
-  .benchmark-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 28px;
-  }
-
-  .bm-label {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-subtle);
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 20px;
-  }
-
-  .bm-scores {
-    display: flex;
-    align-items: flex-end;
-    gap: 16px;
-    margin-bottom: 20px;
-  }
-
-  .bm-score {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    align-items: center;
-  }
-
-  /* C.7 — Count-up numbers */
-  .bm-num {
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: 36px;
-    line-height: 1;
-  }
-
-  .bm-num.before { color: var(--text-subtle); }
-  .bm-num.after { color: var(--green); }
-
-  .bm-sublabel {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--text-subtle);
-  }
-
-  .bm-arrow {
-    font-size: 20px;
-    color: var(--text-subtle);
-    padding-bottom: 8px;
-  }
-
-  .bm-delta {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--green);
-    background: rgba(63,185,80,0.1);
-    border: 1px solid rgba(63,185,80,0.2);
-    border-radius: 6px;
-    padding: 4px 10px;
-  }
-
-  .bm-bar-track {
-    height: 4px;
-    background: var(--bg3);
-    border-radius: 2px;
-    overflow: hidden;
-    margin-top: 16px;
-  }
-
-  .bm-bar-before {
-    height: 100%;
-    background: var(--text-subtle);
-    border-radius: 2px;
-    transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
-    width: 0;
-  }
-
-  .bm-bar-after {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent-dim), var(--green));
-    border-radius: 2px;
-    transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
-    margin-top: 6px;
-    width: 0;
-  }
-
-  .bm-bar-before.animated { width: var(--w-before); }
-  .bm-bar-after.animated { width: var(--w-after); }
-
-  .benchmark-total {
-    margin-top: 40px;
-    background: linear-gradient(135deg, rgba(31,111,235,0.08), rgba(63,185,80,0.08));
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 32px 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  .bt-label {
-    font-family: var(--font-display);
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--text-muted);
-  }
-
-  .bt-scores {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-
-  .bt-before {
-    font-family: var(--font-display);
-    font-size: 48px;
-    font-weight: 800;
-    color: var(--text-subtle);
-    text-decoration: line-through;
-  }
-
-  .bt-after {
-    font-family: var(--font-display);
-    font-size: 64px;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--accent), var(--green));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .bt-delta {
-    font-family: var(--font-mono);
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--green);
-  }
-
-  /* ===== INSTALL SECTION ===== */
-  #install {
-    background: var(--bg2);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .install-methods {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    margin-top: 48px;
-  }
-
-  .install-method {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-  }
-
-  .install-method-header {
-    background: var(--bg3);
-    padding: 12px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .install-method-title {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--text-muted);
-    font-weight: 700;
-  }
-
-  .install-method-badge {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    padding: 2px 8px;
-    border-radius: 10px;
-  }
-
-  .badge-recommended {
-    background: rgba(63,185,80,0.15);
-    color: var(--green);
-    border: 1px solid rgba(63,185,80,0.3);
-  }
-
-  .badge-manual {
-    background: rgba(88,166,255,0.1);
-    color: var(--accent);
-    border: 1px solid rgba(88,166,255,0.2);
-  }
-
-  .install-method-body {
-    padding: 20px;
-  }
-
-  .code-block {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 14px 16px;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--text);
-    margin: 8px 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-  }
-
-  .code-block .prompt-char { color: var(--text-subtle); margin-right: 8px; }
-
-  /* C.8 — code copy button */
-  .code-copy {
-    flex-shrink: 0;
-    padding: 4px 8px;
-    min-height: 44px;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    color: var(--text-subtle);
-    font-size: 10px;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: var(--font-mono);
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .code-copy:hover { color: var(--accent); border-color: var(--accent); }
-  .code-copy.copied {
-    color: var(--green);
-    border-color: var(--green);
-    animation: copyFlash 0.4s ease;
-  }
-
-  .install-cta {
-    display: flex;
-    gap: 16px;
-    margin-top: 48px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 16px 32px;
-    min-height: 44px;
-    background: var(--accent-dim);
-    border: 1px solid var(--accent);
-    border-radius: var(--radius-lg);
-    color: var(--text);
-    font-family: var(--font-display);
-    font-size: 16px;
-    font-weight: 700;
-    text-decoration: none;
-    transition: all 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .btn-primary::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.05), transparent);
-    pointer-events: none;
-  }
-
-  .btn-primary:hover {
-    background: var(--accent);
-    color: #000;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(88,166,255,0.3);
-  }
-
-  .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 16px 24px;
-    min-height: 44px;
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-    font-size: 13px;
-    text-decoration: none;
-    transition: all 0.2s;
-  }
-
-  .btn-secondary:hover { border-color: var(--text-muted); color: var(--text); }
-
-  /* ===== FOOTER ===== */
-  footer {
-    padding: 40px 24px;
-    border-top: 1px solid var(--border);
-    background: var(--bg);
-  }
-
-  .footer-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  .footer-left {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    color: var(--text-muted);
-  }
-
-  .footer-left a {
-    color: var(--accent);
-    text-decoration: none;
-  }
-
-  .footer-left a:hover { text-decoration: underline; }
-
-  .footer-right {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-  }
-
-  .footer-link {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--text-subtle);
-    text-decoration: none;
-    transition: color 0.2s;
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
-  }
-
-  .footer-link:hover { color: var(--text-muted); }
-
-  /* ===== MOBILE ===== */
-  @media (max-width: 768px) {
-    nav { padding: 12px 16px; }
-    .nav-links { display: none; }
-    section { padding: 60px 16px; }
-
-    h1.hero-title {
-      font-size: 48px;
-      letter-spacing: -2px;
-    }
-
-    .hero-subtitle {
-      font-size: 15px;
-      margin-bottom: 32px;
-    }
-
-    .hero-stats { gap: 24px; flex-wrap: wrap; }
-
-    .hero-comparison { max-width: 100%; }
-    .hero-cmp-row {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 4px;
-      font-size: 11px;
-      padding: 8px 12px;
-    }
-    .hcr-arrow { display: none; }
-
-    .install-cmd {
-      flex-wrap: wrap;
-      padding: 12px 14px;
-    }
-    .install-text {
-      font-size: 11px;
-      width: 100%;
-    }
-
-    .problem-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .comparison-row {
-      grid-template-columns: 1fr;
-      gap: 8px;
-    }
-    .cmp-arrow {
-      transform: rotate(90deg);
-      margin: 0 auto;
-      width: 28px;
-      height: 28px;
-      font-size: 12px;
-    }
-    .cmp-before, .cmp-after {
-      padding: 14px 16px;
-      font-size: 12px;
-    }
-
-    .section-title {
-      font-size: 28px;
-      letter-spacing: -1px;
-    }
-    .section-desc {
-      font-size: 15px;
-    }
-
-    .terminal-body {
-      padding: 16px;
-      font-size: 11px;
-      line-height: 1.6;
-      min-height: 280px;
-    }
-
-    .demo-tabs {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .skills-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .benchmark-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .benchmark-total {
-      flex-direction: column;
-      text-align: center;
-      padding: 24px 20px;
-    }
-    .bt-before { font-size: 36px; }
-    .bt-after { font-size: 48px; }
-    .bt-delta { font-size: 18px; }
-
-    .install-methods {
-      grid-template-columns: 1fr;
-    }
-
-    .install-cta {
-      flex-direction: column;
-      align-items: stretch;
-    }
-    .btn-primary, .btn-secondary {
-      justify-content: center;
-      text-align: center;
-    }
-
-    .footer-inner {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 16px;
-    }
-    .footer-left {
-      font-size: 12px;
-      line-height: 1.5;
-    }
-  }
-
-  /* ===== MISC EFFECTS ===== */
-  .glow-blue { text-shadow: 0 0 20px rgba(88,166,255,0.4); }
-  .glow-green { text-shadow: 0 0 20px rgba(63,185,80,0.4); }
-
-  .divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 0;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swing — 6 Cognitive Firewalls for AI Coding Agents | Your AI is not swinging at all</title>
+
+    <!-- SEO Meta -->
+    <meta name="description" content="6 cognitive firewalls for AI coding agents. Prevents hallucination, anchoring bias, confirmation bias, premature closure, black-box reasoning, and optimism bias. Free, open source, MIT licensed.">
+    <meta name="keywords" content="swing skills, claude code skills, ai coding agent, cognitive firewall, ai hallucination prevention, claude code plugins, ai reasoning, prompt engineering, adversarial review, cross verified research">
+    <meta name="author" content="thestack_ai">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://whynowlab.github.io/swing-skills/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Swing — Your AI is not swinging at all">
+    <meta property="og:description" content="6 cognitive firewalls for AI coding agents. Install in 30 seconds. Free and open source.">
+    <meta property="og:url" content="https://whynowlab.github.io/swing-skills/">
+    <meta property="og:image" content="https://raw.githubusercontent.com/swing-skills/main/assets/swing-hero-terminal.png">
+    <meta property="og:site_name" content="Swing">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="ko_KR">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="700">
+    <meta property="og:image:type" content="image/png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Swing — Your AI is not swinging at all">
+    <meta name="twitter:description" content="6 cognitive firewalls for AI coding agents. Prevents hallucination, anchoring, confirmation bias and more.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/swing-skills/main/assets/swing-hero-terminal.png">
+    <meta name="twitter:creator" content="@thestack_ai">
+    <meta name="twitter:site" content="@thestack_ai">
+
+    <!-- Additional Meta -->
+    <meta name="theme-color" content="#0d1117">
+    <link rel="alternate" hreflang="en" href="https://whynowlab.github.io/swing-skills/">
+    <link rel="alternate" hreflang="x-default" href="https://whynowlab.github.io/swing-skills/">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Swing",
+    "description": "6 cognitive firewalls for AI coding agents. Prevents hallucination, anchoring bias, confirmation bias, premature closure, black-box reasoning, and optimism bias.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "url": "https://whynowlab.github.io/swing-skills/",
+    "downloadUrl": "https://github.com/whynowlab/swing-skills",
+    "softwareVersion": "3.1.0",
+    "screenshot": "https://raw.githubusercontent.com/swing-skills/main/assets/swing-hero-terminal.png",
+    "featureList": [
+      "swing-clarify: Prevents premature closure with 5W1H decomposition",
+      "swing-research: Source-traced research with S/A/B/C tier grading",
+      "swing-options: Probability-weighted alternatives against anchoring bias",
+      "swing-review: Steel-man then 3-vector adversarial attack",
+      "swing-trace: Assumption inventory with weakest-link analysis",
+      "swing-mortem: Prospective failure analysis with circuit breakers"
+    ],
+    "keywords": "claude code skills, ai cognitive firewall, swing skills, ai coding agent",
+    "isAccessibleForFree": true,
+    "author": {
+      "@type": "Organization",
+      "@id": "https://github.com/whynowlab#organization",
+      "name": "WhyNow Lab",
+      "alternateName": "thestack_ai",
+      "url": "https://github.com/whynowlab",
+      "sameAs": [
+        "https://github.com/whynowlab",
+        "https://x.com/thestack_ai"
+      ]
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "license": "https://opensource.org/licenses/MIT"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Which Swing skill should I use for daily development?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use swing-clarify for ambiguous requests, swing-research for technical research and fact-checking, and swing-review for code and architecture reviews. These three are designed for daily use."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a cognitive firewall?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A cognitive firewall is a structured skill that prevents a specific AI reasoning failure. Swing provides 6 firewalls targeting hallucination, anchoring bias, confirmation bias, premature closure, black-box reasoning, and optimism bias."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I install Swing?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Run npx skills add swing-skills --all to install all 6 cognitive firewalls. Works with Claude Code, Cursor, and Copilot."
+        }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to install Swing cognitive firewalls",
+    "step": [
+      {"@type": "HowToStep", "name": "Install all skills", "text": "Run: npx skills add swing-skills --all"},
+      {"@type": "HowToStep", "name": "Use a skill", "text": "Type /swing-research followed by your question to activate source-verified research"}
+    ]
+  }
+]
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Favicon: S-Wave lettermark -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M384 144 C384 48, 128 48, 128 176 C128 320, 384 192, 384 336 C384 464, 128 464, 128 368' stroke='%2358a6ff' stroke-width='56'/></svg>">
+
+    <style>
+        /* === Design System === */
+        :root {
+            --bg: #0a0e14;
+            --bg-elevated: #0f1419;
+            --card: #131920;
+            --card-hover: #1a2230;
+            --border: #1e2a3a;
+            --border-hover: #2d4a6f;
+            --accent: #4da2ff;
+            --accent-dim: rgba(77, 162, 255, 0.12);
+            --accent-glow: rgba(77, 162, 255, 0.25);
+            --green: #3fb950;
+            --green-dim: rgba(63, 185, 80, 0.12);
+            --green-glow: rgba(63, 185, 80, 0.25);
+            --red: #f85149;
+            --red-dim: rgba(248, 81, 73, 0.12);
+            --red-glow: rgba(248, 81, 73, 0.25);
+            --yellow: #d29922;
+            --text-main: #b8c4d0;
+            --text-bright: #e2e8f0;
+            --text-muted: #5e6e82;
+            --font-display: 'Space Grotesk', -apple-system, sans-serif;
+            --font-body: 'Inter', -apple-system, sans-serif;
+            --font-mono: 'Fira Code', 'JetBrains Mono', monospace;
+        }
+
+        /* === Resets === */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.65;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3, h4 { font-family: var(--font-display); color: var(--text-bright); font-weight: 700; }
+        code, pre, .mono { font-family: var(--font-mono); font-size: 0.9em; }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* === Layout === */
+        .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+        section { padding: 120px 0; position: relative; }
+
+        /* === Sticky Nav === */
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 0 24px;
+            transition: background 0.3s, backdrop-filter 0.3s, border-color 0.3s;
+            border-bottom: 1px solid transparent;
+        }
+        .nav.scrolled {
+            background: rgba(10, 14, 20, 0.82);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom-color: var(--border);
+        }
+        .nav-inner {
+            max-width: 1140px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+        .nav-logo {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: var(--text-bright);
+            letter-spacing: -0.02em;
+        }
+        .nav-logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 32px; }
+        .nav-links a {
+            color: var(--text-muted);
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.2s;
+            text-decoration: none;
+        }
+        .nav-links a:hover { color: var(--text-bright); text-decoration: none; }
+
+        /* === Scroll Animations === */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        .slide-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .slide-left.visible { opacity: 1; transform: translateX(0); }
+
+        .slide-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .slide-right.visible { opacity: 1; transform: translateX(0); }
+
+        /* Stagger children */
+        .stagger-children > * {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .stagger-children.visible > * { opacity: 1; transform: translateY(0); }
+
+        /* === Hero === */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding-top: 80px;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+        .hero-bg canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .hero-gradient {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.08;
+            transition: transform 0.5s ease-out;
+        }
+        .hero-gradient-1 {
+            background: var(--accent);
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .hero-gradient-2 {
+            background: #8b5cf6;
+            bottom: -300px;
+            right: -200px;
+            width: 500px;
+            height: 500px;
+        }
+        .hero-content { position: relative; z-index: 1; }
+        .hero h1 {
+            font-size: clamp(2.8rem, 5.5vw, 5rem);
+            font-weight: 700;
+            line-height: 1.08;
+            margin-bottom: 24px;
+            letter-spacing: -0.03em;
+        }
+        .hero .typing-container {
+            font-size: clamp(1rem, 1.8vw, 1.25rem);
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            min-height: 2em;
+            font-family: var(--font-mono);
+        }
+        .hero .typing-container .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.1em;
+            background: var(--accent);
+            margin-left: 2px;
+            vertical-align: text-bottom;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        .hero .subcopy {
+            font-size: clamp(1.05rem, 1.8vw, 1.2rem);
+            margin-bottom: 48px;
+            color: var(--text-main);
+        }
+
+        .cta-box {
+            display: inline-flex;
+            align-items: center;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 8px 8px 8px 24px;
+            max-width: 100%;
+            transition: border-color 0.3s;
+        }
+        .cta-box:hover { border-color: var(--border-hover); }
+        .cta-box code { color: var(--accent); font-size: 1rem; margin-right: 20px; white-space: nowrap; }
+        .btn-copy {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 0 20px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 0.9rem;
+            min-width: 80px;
+            min-height: 42px;
+            transition: background 0.2s, transform 0.15s;
+        }
+        .btn-copy:hover { background: #6cb6ff; transform: translateY(-1px); }
+        .btn-copy:active { transform: translateY(0); }
+        .btn-copy.success { background: var(--green); }
+
+        /* === Terminal Demo === */
+        .terminal-section { padding-bottom: 80px; }
+        .terminal-wrapper {
+            max-width: 720px;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: #0c1018;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03) inset;
+        }
+        .terminal-titlebar {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background: #161d27;
+            border-bottom: 1px solid var(--border);
+            gap: 8px;
+        }
+        .terminal-dot {
+            width: 12px; height: 12px;
+            border-radius: 50%;
+        }
+        .terminal-dot.red { background: #ff5f57; }
+        .terminal-dot.yellow { background: #febc2e; }
+        .terminal-dot.green { background: #28c840; }
+        .terminal-title {
+            flex: 1;
+            text-align: center;
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-right: 44px;
+        }
+        .terminal-body {
+            padding: 20px 24px;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            line-height: 1.8;
+            min-height: 520px;
+            overflow: hidden;
+        }
+        .terminal-body .line {
+            white-space: pre-wrap;
+            word-break: break-all;
+            opacity: 0;
+            transform: translateY(4px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .terminal-body .line.shown {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .terminal-body .cmd { color: var(--accent); }
+        .terminal-body .prompt { color: var(--text-muted); }
+        .terminal-body .ok { color: var(--green); }
+        .terminal-body .err { color: var(--red); }
+        .terminal-body .warn { color: var(--yellow); }
+        .terminal-body .dim { color: var(--text-muted); }
+        .terminal-body .bold { color: var(--text-bright); font-weight: 600; }
+        .terminal-body .ascii { color: #58a6ff; }
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.2em;
+            background: var(--accent);
+            vertical-align: text-bottom;
+            animation: blink 1s step-end infinite;
+        }
+
+        .terminal-cta {
+            text-align: center;
+            margin-top: 32px;
+        }
+        .btn-try {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            background: var(--accent);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+            text-decoration: none;
+        }
+        .btn-try:hover {
+            background: #6cb6ff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(77, 162, 255, 0.25);
+            text-decoration: none;
+        }
+        .btn-try:active { transform: translateY(0); }
+
+        /* === Before/After === */
+        .section-header {
+            text-align: center;
+            margin-bottom: 56px;
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            letter-spacing: -0.02em;
+        }
+        .section-sub {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-top: -40px;
+            margin-bottom: 56px;
+        }
+        .ba-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-bottom: 20px; }
+        .ba-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px 24px 24px;
+            position: relative;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .ba-card.red:hover {
+            border-color: rgba(248, 81, 73, 0.4);
+            box-shadow: 0 0 30px var(--red-dim), inset 0 0 30px var(--red-dim);
+        }
+        .ba-card.green:hover {
+            border-color: rgba(63, 185, 80, 0.4);
+            box-shadow: 0 0 30px var(--green-dim), inset 0 0 30px var(--green-dim);
+        }
+        .ba-card.red { border-top: 3px solid var(--red); }
+        .ba-card.green { border-top: 3px solid var(--green); }
+        .badge {
+            position: absolute;
+            top: -13px;
+            left: 24px;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: var(--font-mono);
+            color: #ffffff;
+            letter-spacing: 0.04em;
+        }
+        .badge.red { background: var(--red); }
+        .badge.green { background: var(--green); }
+        .chat-block { margin-bottom: 18px; }
+        .chat-label {
+            font-family: var(--font-display);
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .label-you { color: var(--text-muted); }
+        .label-ai { color: var(--accent); }
+        .chat-text { font-size: 0.92rem; line-height: 1.6; }
+        .chat-text code {
+            background: rgba(77, 162, 255, 0.1);
+            color: var(--accent);
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+        .impact-text {
+            text-align: center;
+            font-style: italic;
+            color: var(--text-muted);
+            margin-bottom: 72px;
+            margin-top: 8px;
+            font-size: 1rem;
+        }
+
+        /* === Firewalls === */
+        .firewall-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .firewall-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 28px 24px;
+            border-radius: 12px;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s, box-shadow 0.3s;
+        }
+        .firewall-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 8px 32px var(--accent-dim), inset 0 0 24px var(--accent-dim);
+        }
+        .firewall-card h3 {
+            color: var(--accent);
+            margin-bottom: 10px;
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        .firewall-card p { font-size: 0.92rem; color: var(--text-main); }
+        .firewall-card strong { color: var(--text-bright); }
+
+        /* Firewall card icon area */
+        .firewall-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0d1117;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            transition: box-shadow 0.3s, background 0.3s;
+        }
+        .firewall-icon svg {
+            transition: stroke 0.3s, filter 0.3s;
+            color: var(--text-main);
+        }
+        .firewall-card:hover .firewall-icon {
+            box-shadow: 0 0 16px var(--accent-dim), 0 0 4px var(--accent-dim);
+            background: rgba(13, 17, 23, 0.9);
+        }
+        .firewall-card:hover .firewall-icon svg {
+            color: #ffffff;
+            filter: drop-shadow(0 0 4px var(--accent-glow));
+        }
+
+        /* === Tier Table === */
+        .tier-table-wrapper { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+        .tier-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card);
+        }
+        .tier-table th, .tier-table td { padding: 18px 20px; border-bottom: 1px solid var(--border); text-align: left; }
+        .tier-table th { font-family: var(--font-display); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); background: var(--bg-elevated); }
+        .tier-table tr:last-child td { border-bottom: none; }
+        .tier-table td { font-size: 0.92rem; }
+
+        /* === Pipeline === */
+        .pipeline-wrapper { position: relative; }
+        .pipeline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--card);
+            padding: 40px 32px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            gap: 12px;
+            overflow: hidden;
+        }
+        .pipe-node {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            text-align: center;
+            flex: 1;
+            transition: border-color 0.4s, background 0.4s, color 0.4s, box-shadow 0.4s;
+            color: var(--text-muted);
+            position: relative;
+        }
+        .pipe-node.active {
+            border-color: var(--accent);
+            color: var(--text-bright);
+            background: rgba(77, 162, 255, 0.06);
+            box-shadow: 0 0 20px var(--accent-dim);
+        }
+        .pipe-arrow {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.4s, color 0.4s;
+        }
+        .pipe-arrow.active {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        /* === Why Grid === */
+        .why-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+        .why-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px 24px;
+            transition: border-color 0.3s;
+        }
+        .why-card:hover { border-color: var(--border-hover); }
+        .why-card h3 { margin-bottom: 10px; font-size: 1.25rem; }
+        .why-card p { font-size: 0.92rem; }
+
+        /* === Install === */
+        .install-grid { display: grid; gap: 20px; }
+        .install-item h4 {
+            margin-bottom: 10px;
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .install-block {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 14px 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: var(--font-mono);
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: border-color 0.3s;
+        }
+        .install-block:hover { border-color: var(--border-hover); }
+        .install-block code { white-space: nowrap; margin-right: 20px; font-size: 0.88rem; }
+        .install-block .btn-copy {
+            min-width: 72px;
+            min-height: 36px;
+            font-size: 0.8rem;
+            padding: 0 16px;
+        }
+
+        /* === Footer === */
+        footer {
+            padding: 120px 0 60px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+        footer h2 {
+            font-size: clamp(3rem, 6.5vw, 5.5rem);
+            margin-bottom: 40px;
+            letter-spacing: -0.03em;
+            line-height: 1;
+        }
+        .footer-reveal .char {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s, transform 0.4s;
+        }
+        .footer-reveal.visible .char {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .footer-links { margin-bottom: 24px; }
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin: 0 16px;
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--text-bright); text-decoration: none; }
+        .footer-credits { color: var(--text-muted); font-size: 0.85rem; }
+
+        /* === Reduced Motion === */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            .fade-in, .slide-left, .slide-right { opacity: 1; transform: none; }
+            .stagger-children > * { opacity: 1; transform: none; }
+            .terminal-body .line { opacity: 1; transform: none; }
+            .pipe-node { color: var(--text-bright); border-color: var(--accent); }
+            .pipe-arrow { opacity: 1; }
+            .footer-reveal .char { opacity: 1; transform: none; }
+        }
+
+        /* === Mobile === */
+        @media (max-width: 768px) {
+            .nav-links { gap: 20px; }
+            .nav-links a { font-size: 0.8rem; }
+            section { padding: 80px 0; }
+            .ba-grid, .firewall-grid, .why-grid { grid-template-columns: 1fr; }
+            .cta-box {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+                padding: 16px;
+            }
+            .cta-box code { margin-right: 0; text-align: center; overflow-x: auto; padding-bottom: 4px; font-size: 0.85rem; }
+            .pipeline { flex-direction: column; padding: 24px; }
+            .pipe-arrow { transform: rotate(90deg); margin: 4px 0; }
+            .install-block { flex-direction: column; align-items: stretch; gap: 10px; }
+            .install-block code { margin-right: 0; overflow-x: auto; padding-bottom: 4px; }
+            .terminal-body { font-size: 0.65rem; padding: 16px; min-height: 480px; }
+            .terminal-body .line { white-space: pre; overflow-x: auto; }
+        }
+        @media (max-width: 480px) {
+            .nav-links { gap: 14px; }
+            .nav-links a { font-size: 0.75rem; }
+            .terminal-body { font-size: 0.55rem; }
+        }
+    </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a class="nav-logo" href="#hero">
-    <span class="prompt">~/</span>stack-skills<span class="cursor"></span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="#problem">문제</a></li>
-    <li><a href="#demo">데모</a></li>
-    <li><a href="#skills">스킬</a></li>
-    <li><a href="#benchmark">벤치마크</a></li>
-    <li><a href="#install">설치</a></li>
-  </ul>
-  <a class="nav-cta" href="https://github.com/whynowlab/stack-skills" target="_blank">GitHub →</a>
-</nav>
+    <!-- Navigation -->
+    <nav class="nav" id="main-nav">
+        <div class="nav-inner">
+            <div class="nav-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="24" height="24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <defs><linearGradient id="nav-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#58a6ff"/><stop offset="100%" stop-color="#3fb950"/></linearGradient></defs>
+                  <path d="M384 144 C384 48, 128 48, 128 176 C128 320, 384 192, 384 336 C384 464, 128 464, 128 368" stroke="url(#nav-grad)" stroke-width="56"/>
+                </svg>
+                <span style="font-family: var(--font-display); font-weight: 700; margin-left: 8px;">Swing</span>
+            </div>
+            <div class="nav-links">
+                <a href="#firewalls">Firewalls</a>
+                <a href="#pipeline">Pipeline</a>
+                <a href="#install">Install</a>
+                <a href="https://github.com/whynowlab/swing-skills" target="_blank" rel="noopener">GitHub</a>
+            </div>
+        </div>
+    </nav>
 
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
-  <div class="container hero-content">
-    <div class="hero-badge">
-      <span class="dot"></span>
-      오픈소스 · MIT 라이선스 · 7개 스킬
+    <div class="container">
+        <!-- Hero -->
+        <section class="hero" id="hero">
+            <div class="hero-bg">
+                <div class="hero-gradient hero-gradient-1"></div>
+                <div class="hero-gradient hero-gradient-2"></div>
+                <canvas id="grid-canvas"></canvas>
+            </div>
+            <div class="hero-content fade-in">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="64" height="64" fill="none" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 24px;">
+                  <defs><linearGradient id="hero-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#58a6ff"/><stop offset="100%" stop-color="#3fb950"/></linearGradient></defs>
+                  <path d="M384 144 C384 48, 128 48, 128 176 C128 320, 384 192, 384 336 C384 464, 128 464, 128 368" stroke="url(#hero-grad)" stroke-width="56"/>
+                </svg>
+                <h1>Your AI is not<br>swinging at all.</h1>
+                <div class="typing-container" id="typing-text" aria-live="polite"><span class="cursor"></span></div>
+                <p class="subcopy">Six cognitive failures. Six firewalls. Make it swing.</p>
+                <div class="cta-box">
+                    <code id="install-cmd">npx skills add swing-skills --all</code>
+                    <button class="btn-copy" onclick="copyText('install-cmd', this)" aria-label="Copy installation command">Copy</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Terminal Demo -->
+        <section class="terminal-section fade-in" id="terminal-demo">
+            <div class="terminal-wrapper">
+                <div class="terminal-titlebar">
+                    <div class="terminal-dot red"></div>
+                    <div class="terminal-dot yellow"></div>
+                    <div class="terminal-dot green"></div>
+                    <div class="terminal-title">swing-cli &mdash; zsh</div>
+                </div>
+                <div class="terminal-body" id="terminal-body">
+                    <!-- Lines injected by JS -->
+                </div>
+            </div>
+            <div class="terminal-cta fade-in">
+                <a href="https://github.com/whynowlab/swing-skills" class="btn-try" target="_blank" rel="noopener">
+                    Try it yourself
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5h8m0 0L7.5 5m3.5 3.5L7.5 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+            </div>
+        </section>
+
+        <!-- Before/After -->
+        <section id="comparison">
+            <h2 class="section-header fade-in">The Baseline vs. The Swing</h2>
+
+            <!-- Set 1: SQLite -->
+            <div class="ba-grid">
+                <div class="ba-card red slide-left">
+                    <div class="badge red">NOT SWINGING</div>
+                    <div class="chat-block">
+                        <div class="chat-label label-you">You</div>
+                        <div class="chat-text">Is SQLite viable for an app with 1000 concurrent users?</div>
+                    </div>
+                    <div class="chat-block">
+                        <div class="chat-label label-ai">AI</div>
+                        <div class="chat-text">No, SQLite is not suitable for high-concurrency applications. Use PostgreSQL or MySQL instead.</div>
+                    </div>
+                </div>
+                <div class="ba-card green slide-right">
+                    <div class="badge green">SWINGING</div>
+                    <div class="chat-block">
+                        <div class="chat-label label-you">You</div>
+                        <div class="chat-text"><code>/swing-research</code> Is SQLite viable for an app with 1000 concurrent users?</div>
+                    </div>
+                    <div class="chat-block">
+                        <div class="chat-label label-ai">AI</div>
+                        <div class="chat-text">
+                            Yes, with caveats. 1000 concurrent users &#8800; 1000 concurrent writes. Typical web apps generate ~30 concurrent write transactions. SQLite handles ~120 write transactions/sec in WAL mode.<br><br>
+                            <span style="color: var(--text-muted); font-size: 0.82rem;">Sources: &#127963; sqlite.org WAL docs, &#128737; Expensify engineering blog</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="impact-text fade-in">The baseline gave a wrong answer confidently.</p>
+
+            <!-- Set 2: JWT -->
+            <div class="ba-grid">
+                <div class="ba-card red slide-left">
+                    <div class="badge red">NOT SWINGING</div>
+                    <div class="chat-block">
+                        <div class="chat-label label-you">You</div>
+                        <div class="chat-text">Review this JWT auth module</div>
+                    </div>
+                    <div class="chat-block">
+                        <div class="chat-label label-ai">AI</div>
+                        <div class="chat-text">The code looks well-structured. Consider adding more comments and using TypeScript.</div>
+                    </div>
+                </div>
+                <div class="ba-card green slide-right">
+                    <div class="badge green">SWINGING</div>
+                    <div class="chat-block">
+                        <div class="chat-label label-you">You</div>
+                        <div class="chat-text"><code>/swing-review</code> Review this JWT auth module</div>
+                    </div>
+                    <div class="chat-block">
+                        <div class="chat-label label-ai">AI</div>
+                        <div class="chat-text">
+                            <strong>Steel-man:</strong> JWT stateless auth for horizontal scaling.<br><br>
+                            <span style="color: var(--red);">&#128308; Critical:</span> No refresh token rotation &mdash; stolen token = 7-day persistent access.<br>
+                            <span style="color: var(--yellow);">&#128992; Major:</span> Rate limiting in-memory Map() &mdash; resets on restart.<br><br>
+                            <strong style="color: var(--green); font-family: var(--font-mono);">Verdict: PASS WITH CONDITIONS</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="impact-text fade-in">The baseline found nothing. The skill found a Critical vulnerability.</p>
+        </section>
+
+        <!-- Six Firewalls -->
+        <section id="firewalls">
+            <h2 class="section-header fade-in">Six Cognitive Firewalls</h2>
+            <div class="firewall-grid stagger-children" id="firewall-grid">
+                <div class="firewall-card">
+                    <div class="firewall-icon">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            <circle cx="11" cy="11" r="2" stroke="#58a6ff" fill="#58a6ff" opacity="0.8"></circle>
+                        </svg>
+                    </div>
+                    <h3>swing-clarify</h3>
+                    <p><strong>Premature Closure.</strong> Structured clarification before execution.</p>
+                </div>
+                <div class="firewall-card">
+                    <div class="firewall-icon">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
+                            <line x1="8" y1="7" x2="16" y2="7" stroke="#58a6ff" stroke-width="2"></line>
+                            <line x1="8" y1="11" x2="12" y2="11"></line>
+                        </svg>
+                    </div>
+                    <h3>swing-research</h3>
+                    <p><strong>Hallucination.</strong> Source-traced claims with S/A/B/C tier grading.</p>
+                </div>
+                <div class="firewall-card">
+                    <div class="firewall-icon">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            <path d="m9 12 2 2 4-4" stroke="#3fb950" stroke-width="2"></path>
+                        </svg>
+                    </div>
+                    <h3>swing-review</h3>
+                    <p><strong>Confirmation Bias.</strong> Steel-man then 3-vector attack.</p>
+                </div>
+                <div class="firewall-card">
+                    <div class="firewall-icon">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 3v12"></path>
+                            <circle cx="6" cy="18" r="3"></circle>
+                            <path d="M18 9a9 9 0 0 1-9 9"></path>
+                            <circle cx="18" cy="6" r="3" stroke="#58a6ff"></circle>
+                            <path d="M18 9V6" stroke="#58a6ff"></path>
+                        </svg>
+                    </div>
+                    <h3>swing-options</h3>
+                    <p><strong>Anchoring Bias.</strong> 5 probability-weighted options.</p>
+                </div>
+                <div class="firewall-card">
+                    <div class="firewall-icon">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                            <line x1="8" y1="12" x2="16" y2="12" stroke="#58a6ff" stroke-width="2" stroke-dasharray="2 2"></line>
+                        </svg>
+                    </div>
+                    <h3>swing-trace</h3>
+                    <p><strong>Black-box Reasoning.</strong> Assumption inventory + weakest-link.</p>
+                </div>
+                <div class="firewall-card">
+                    <div class="firewall-icon">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="5" y="4" width="14" height="12" rx="4"></rect>
+                            <path d="M8 16v4h8v-4"></path>
+                            <line x1="12" y1="16" x2="12" y2="20"></line>
+                            <circle cx="9" cy="10" r="1.5" stroke="#f85149" fill="#f85149"></circle>
+                            <circle cx="15" cy="10" r="1.5" stroke="#f85149" fill="#f85149"></circle>
+                        </svg>
+                    </div>
+                    <h3>swing-mortem</h3>
+                    <p><strong>Optimism Bias.</strong> 5 failure scenarios with circuit breakers.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Which Skill -->
+        <section class="fade-in">
+            <h2 class="section-header">Which Skill to Use?</h2>
+            <div class="tier-table-wrapper">
+                <table class="tier-table">
+                    <thead>
+                        <tr>
+                            <th>Tier</th>
+                            <th>Skills</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Daily Use</strong></td>
+                            <td class="mono">swing-clarify, swing-research, swing-review</td>
+                            <td>Standard development, PR reviews, architectural questions.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>High-Stakes</strong></td>
+                            <td class="mono">swing-options, swing-mortem</td>
+                            <td>Database migrations, auth flows, payment gateways.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Deep Analysis</strong></td>
+                            <td class="mono">swing-trace, swing-trace --full</td>
+                            <td>Debugging complex state, legacy code archeology.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Pipeline -->
+        <section id="pipeline" class="fade-in">
+            <h2 class="section-header">The Pipeline</h2>
+            <div class="pipeline-wrapper">
+                <div class="pipeline" id="pipeline-flow">
+                    <div class="pipe-node">[Request]</div>
+                    <div class="pipe-arrow">&rarr;</div>
+                    <div class="pipe-node">swing-clarify</div>
+                    <div class="pipe-arrow">&rarr;</div>
+                    <div class="pipe-node">swing-options</div>
+                    <div class="pipe-arrow">&rarr;</div>
+                    <div class="pipe-node">swing-research</div>
+                    <div class="pipe-arrow">&rarr;</div>
+                    <div class="pipe-node">swing-review</div>
+                    <div class="pipe-arrow">&rarr;</div>
+                    <div class="pipe-node">swing-mortem</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why a Skill -->
+        <section class="fade-in">
+            <h2 class="section-header">Why a Skill?</h2>
+            <div class="why-grid">
+                <div class="why-card">
+                    <h3>Context Efficiency</h3>
+                    <p>Injects rules only when invoked, saving token context for your actual codebase instead of bloating system prompts.</p>
+                </div>
+                <div class="why-card">
+                    <h3>Composability</h3>
+                    <p>Chain skills together like Unix pipes. Use trace to find the bug, options to fix it, and mortem to break the fix.</p>
+                </div>
+                <div class="why-card">
+                    <h3>Portability</h3>
+                    <p>Works across CLI, IDE extensions, and standard chat interfaces. Your cognitive firewalls travel with you.</p>
+                </div>
+                <div class="why-card">
+                    <h3>Community</h3>
+                    <p>Open-source prompts. Battle-tested against real-world hallucinations and logic gaps by senior engineers.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Installation -->
+        <section class="fade-in" id="install">
+            <h2 class="section-header">Installation</h2>
+            <div class="install-grid">
+                <div class="install-item">
+                    <h4>Quick (All Skills)</h4>
+                    <div class="install-block">
+                        <code id="cmd-quick">npx skills add swing-skills --all</code>
+                        <button class="btn-copy" onclick="copyText('cmd-quick', this)">Copy</button>
+                    </div>
+                </div>
+                <div class="install-item">
+                    <h4>Individual Skill</h4>
+                    <div class="install-block">
+                        <code id="cmd-indiv">npx skills add swing-skills/swing-review</code>
+                        <button class="btn-copy" onclick="copyText('cmd-indiv', this)">Copy</button>
+                    </div>
+                </div>
+                <div class="install-item">
+                    <h4>Manual</h4>
+                    <div class="install-block">
+                        <code id="cmd-manual">git clone https://github.com/whynowlab/swing-skills.git && cp -r swing-skills ~/.skills/</code>
+                        <button class="btn-copy" onclick="copyText('cmd-manual', this)">Copy</button>
+                    </div>
+                </div>
+                <div class="install-item">
+                    <h4>Per-Project (Claude Desktop)</h4>
+                    <div class="install-block">
+                        <code id="cmd-proj">cp -r ~/.skills/swing-* ./.claude/skills/</code>
+                        <button class="btn-copy" onclick="copyText('cmd-proj', this)">Copy</button>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
-    <h1 class="hero-title">
-      <span class="stack">Stack</span><br>
-      <span class="skills">Skills</span>
-    </h1>
-    <p class="hero-tagline">AI의 사고력을 쌓아올리다</p>
-    <p class="hero-subtitle">
-      설치 전에, 당신의 AI가 뭘 못하고 있었는지 30초만 보세요.
-    </p>
-    <div class="install-block">
-      <div class="install-label">빠른 설치</div>
-      <div class="install-cmd">
-        <span class="install-prompt">$</span>
-        <span class="install-text">npx skills add whynowlab/stack-skills --all</span>
-        <button class="copy-btn" onclick="copyHero(this)">copy</button>
-      </div>
-    </div>
-    <div class="hero-comparison" id="hero-comparison">
-      <div class="hero-comparison-label">// 지금 당장 일어나고 있는 일</div>
-      <div class="hero-cmp-row">
-        <span class="hcr-bad">❌ "PostgreSQL 쓰세요"</span>
-        <span class="hcr-arrow">→</span>
-        <span class="hcr-good">✅ 5개 대안 + 숨겨진 가정 3개 노출</span>
-      </div>
-      <div class="hero-cmp-row">
-        <span class="hcr-bad">❌ "괜찮아 보입니다"</span>
-        <span class="hcr-arrow">→</span>
-        <span class="hcr-good">✅ 3벡터 공격으로 Critical 이슈 4건 발견</span>
-      </div>
-      <div class="hero-cmp-row">
-        <span class="hcr-bad">❌ 출처 없는 답변</span>
-        <span class="hcr-arrow">→</span>
-        <span class="hcr-good">✅ S/A/B/C 등급 소스 10개 교차검증</span>
-      </div>
-    </div>
-    <div class="hero-stats">
-      <div class="stat">
-        <span class="stat-num" data-target="7" data-suffix="">7</span>
-        <span class="stat-label">메타인지 스킬</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num" data-target="85" data-suffix="%+" data-prefix="+">+85%</span>
-        <span class="stat-label">평균 향상</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num">MIT</span>
-        <span class="stat-label">라이선스</span>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- PROBLEM -->
-<section id="problem">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-eyebrow">// 문제</div>
-      <h2 class="section-title">당신의 AI는<br>생각을 잘못하고 있습니다.</h2>
-      <p class="section-desc">틀린 답이 아닙니다. 틀린 과정입니다. 기본 상태의 AI에는 어떤 프롬프트로도 고칠 수 없는 인지 편향이 내장되어 있습니다.</p>
-    </div>
-    <div class="problem-grid">
-      <div class="problem-card reveal reveal-delay-1">
-        <span class="problem-icon">⚡</span>
-        <div class="problem-title">첫 번째 답 편향</div>
-        <p class="problem-desc">AI는 가능한 첫 번째 답을 고릅니다. 최선의 답이 아니라. 정확하기보다 도움되어 보이는 걸 최적화합니다.</p>
-      </div>
-      <div class="problem-card reveal reveal-delay-2">
-        <span class="problem-icon">🪞</span>
-        <div class="problem-title">동의 함정</div>
-        <p class="problem-desc">반박해야 할 때 동의합니다. 당신의 아이디어가 좋다고 하면 — 틀려도 맞는 이유를 찾아냅니다.</p>
-      </div>
-      <div class="problem-card reveal reveal-delay-3">
-        <span class="problem-icon">🌫</span>
-        <div class="problem-title">리서치 연극</div>
-        <p class="problem-desc">검증 없이 추측으로 리서치합니다. 자신감 넘치는 출력, 하지만 소스 검증이나 등급 분류는 없습니다.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- COMPARISON -->
-<section id="comparison">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-eyebrow">// 설치 전 vs 설치 후</div>
-      <h2 class="section-title">구조적<br>업그레이드.</h2>
-      <p class="section-desc">Stack Skills는 인지 파이프라인 자체를 재구성합니다. 모든 상호작용이 검증된 다단계 프로세스를 통과합니다.</p>
-    </div>
-    <div class="comparison-rows">
-      <div class="comparison-row reveal reveal-delay-1">
-        <div class="cmp-before">
-          안전한 답 1개<br>
-          <span style="color:var(--text-subtle);font-size:11px;">뻔한 길을 고릅니다</span>
-          <br><span class="skill-tag">creativity-sampler</span>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="32" height="32" fill="none" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 24px;">
+              <defs><linearGradient id="footer-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#58a6ff"/><stop offset="100%" stop-color="#3fb950"/></linearGradient></defs>
+              <path d="M384 144 C384 48, 128 48, 128 176 C128 320, 384 192, 384 336 C384 464, 128 464, 128 368" stroke="url(#footer-grad)" stroke-width="56"/>
+            </svg>
+            <h2 class="footer-reveal" id="footer-text">Make it swing.</h2>
+            <div class="footer-links">
+                <a href="https://github.com/whynowlab/swing-skills" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://github.com/swing-skills/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+            </div>
+            <p class="footer-credits">Swing by @thestack_ai</p>
         </div>
-        <div class="cmp-arrow">→</div>
-        <div class="cmp-after">
-          확률 가중치 5개 옵션<br>
-          <span style="color:var(--green);font-size:11px;">전형성 편향을 근본적으로 차단</span>
-        </div>
-      </div>
-      <div class="comparison-row reveal reveal-delay-2">
-        <div class="cmp-before">
-          "괜찮아 보입니다"<br>
-          <span style="color:var(--text-subtle);font-size:11px;">동의해주는 게 편하니까</span>
-          <br><span class="skill-tag">adversarial-review</span>
-        </div>
-        <div class="cmp-arrow">→</div>
-        <div class="cmp-after">
-          반드시 문제를 찾는 3벡터 공격<br>
-          <span style="color:var(--green);font-size:11px;">악마의 변호인이 설계에 내장</span>
-        </div>
-      </div>
-      <div class="comparison-row reveal reveal-delay-3">
-        <div class="cmp-before">
-          출처 없는 주장<br>
-          <span style="color:var(--text-subtle);font-size:11px;">자신감 넘치는 할루시네이션</span>
-          <br><span class="skill-tag">cross-verified-research</span>
-        </div>
-        <div class="cmp-arrow">→</div>
-        <div class="cmp-after">
-          4단계 검증 파이프라인 + 소스 등급<br>
-          <span style="color:var(--green);font-size:11px;">S/A/B/C 티어, 교차 검증된 주장</span>
-        </div>
-      </div>
-      <div class="comparison-row reveal reveal-delay-4">
-        <div class="cmp-before">
-          표면적 리뷰<br>
-          <span style="color:var(--text-subtle);font-size:11px;">코드가 맞아 보입니다</span>
-          <br><span class="skill-tag">deep-dive-analyzer</span>
-        </div>
-        <div class="cmp-arrow">→</div>
-        <div class="cmp-after">
-          5개 렌즈를 통한 현미경 해부<br>
-          <span style="color:var(--green);font-size:11px;">숨겨진 것 없이, 가정 없이</span>
-        </div>
-      </div>
-      <div class="comparison-row reveal">
-        <div class="cmp-before">
-          이해했다는 가정<br>
-          <span style="color:var(--text-subtle);font-size:11px;">알겠습니다, 처리하겠습니다</span>
-          <br><span class="skill-tag">tiered-test-generator</span>
-        </div>
-        <div class="cmp-arrow">→</div>
-        <div class="cmp-after">
-          지식 공백을 드러내는 9단계 문제<br>
-          <span style="color:var(--green);font-size:11px;">L1 암기부터 L9 종합까지</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    </footer>
 
-<!-- DEMO -->
-<section id="demo">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-eyebrow">// 라이브 데모</div>
-      <h2 class="section-title">다르게 생각하는 걸<br>직접 보세요.</h2>
-      <p class="section-desc">두 스킬, 두 가지 인지 전환. 프로세스를 실시간으로 확인하세요.</p>
-    </div>
-    <div class="reveal reveal-delay-1">
-      <div class="demo-tabs">
-        <button class="demo-tab active" onclick="switchTab('creativity')">creativity-sampler</button>
-        <button class="demo-tab" onclick="switchTab('adversarial')">adversarial-review</button>
-      </div>
+    <script>
+    (function() {
+        'use strict';
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const isMobile = window.innerWidth < 768;
 
-      <!-- CREATIVITY PANEL -->
-      <div class="demo-panel active" id="panel-creativity">
-        <div class="terminal-window">
-          <div class="terminal-header">
-            <div class="terminal-dot dot-red"></div>
-            <div class="terminal-dot dot-yellow"></div>
-            <div class="terminal-dot dot-green"></div>
-            <div class="terminal-title">claude — creativity-sampler 데모</div>
-          </div>
-          <div class="terminal-body" id="term-creativity">
-            <div id="creativity-output"></div>
-            <span class="t-cursor" id="cursor-creativity"></span>
-          </div>
-        </div>
-        <button class="replay-btn" onclick="replayCreativity()">↺ 다시 재생</button>
-      </div>
-
-      <!-- ADVERSARIAL PANEL -->
-      <div class="demo-panel" id="panel-adversarial">
-        <div class="terminal-window">
-          <div class="terminal-header">
-            <div class="terminal-dot dot-red"></div>
-            <div class="terminal-dot dot-yellow"></div>
-            <div class="terminal-dot dot-green"></div>
-            <div class="terminal-title">claude — adversarial-review 데모</div>
-          </div>
-          <div class="terminal-body" id="term-adversarial">
-            <div id="adversarial-output"></div>
-            <span class="t-cursor" id="cursor-adversarial"></span>
-          </div>
-        </div>
-        <button class="replay-btn" onclick="replayAdversarial()">↺ 다시 재생</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SKILLS -->
-<section id="skills">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-eyebrow">// 7개 메타인지 스킬</div>
-      <h2 class="section-title">완전한<br>스택.</h2>
-      <p class="section-desc">각 스킬은 인지 모듈입니다. 하나만 설치해도 됩니다. 전부 설치해도 됩니다. 조합해서 쌓으세요.</p>
-    </div>
-    <div class="skills-grid">
-      <div class="skill-card reveal reveal-delay-1">
-        <div class="skill-num">01 / 07</div>
-        <div class="skill-name">cross-verified-research</div>
-        <p class="skill-desc">4단계 리서치 파이프라인. 소스 등급(S/A/B/C) 부여, 독립 소스 간 교차 검증 후 출력.</p>
-        <span class="skill-badge badge-research">리서치</span>
-      </div>
-      <div class="skill-card reveal reveal-delay-2">
-        <div class="skill-num">02 / 07</div>
-        <div class="skill-name">creativity-sampler</div>
-        <p class="skill-desc">전형성 편향에 맞서는 확률 가중치 5개 옵션. 참신성과 실행 가능성을 평가한 뒤 비관습적 대안 도출.</p>
-        <span class="skill-badge badge-decision">의사결정</span>
-      </div>
-      <div class="skill-card reveal reveal-delay-3">
-        <div class="skill-num">03 / 07</div>
-        <div class="skill-name">adversarial-review</div>
-        <p class="skill-desc">모든 결정에 대한 3벡터 악마의 변호인 공격. 근거 없이 통과 판정 불가.</p>
-        <span class="skill-badge badge-review">리뷰</span>
-      </div>
-      <div class="skill-card reveal reveal-delay-4">
-        <div class="skill-num">04 / 07</div>
-        <div class="skill-name">deep-dive-analyzer</div>
-        <p class="skill-desc">5개 분석 렌즈로 복잡한 시스템을 현미경 해부. 가정, 숨겨진 의존성, 엣지 케이스까지.</p>
-        <span class="skill-badge badge-analysis">분석</span>
-      </div>
-      <div class="skill-card reveal">
-        <div class="skill-num">05 / 07</div>
-        <div class="skill-name">skill-composer</div>
-        <p class="skill-desc">다중 스킬 파이프라인 오케스트레이션. 순차/병렬 워크플로우로 복합 인지 작업 처리.</p>
-        <span class="skill-badge badge-meta">메타</span>
-      </div>
-      <div class="skill-card reveal reveal-delay-1">
-        <div class="skill-num">06 / 07</div>
-        <div class="skill-name">persona-architect</div>
-        <p class="skill-desc">맥락 인식 AI 페르소나 설계 프레임워크. 추론 스타일, 제약 조건, 인지 전문화를 구조화.</p>
-        <span class="skill-badge badge-meta">메타</span>
-      </div>
-      <div class="skill-card reveal reveal-delay-2">
-        <div class="skill-num">07 / 07</div>
-        <div class="skill-name">tiered-test-generator</div>
-        <p class="skill-desc">다단계 난이도 지식 검증. L1 암기부터 L9 종합까지, 단순 Q&A로 발견 못하는 이해 공백 노출.</p>
-        <span class="skill-badge badge-testing">테스트</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- BENCHMARK -->
-<section id="benchmark">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-eyebrow">// 벤치마크</div>
-      <h2 class="section-title">숫자는<br>거짓말을 안 합니다.</h2>
-      <p class="section-desc">120개 태스크 측정: 리서치 품질, 의사결정 폭, 비판적 리뷰 깊이.</p>
-    </div>
-    <div class="benchmark-grid">
-      <div class="benchmark-card reveal reveal-delay-1" data-w-before="50" data-w-after="90">
-        <div class="bm-label">리서치 품질</div>
-        <div class="bm-scores">
-          <div class="bm-score">
-            <div class="bm-num before" data-countup-from="0" data-countup-to="5">5</div>
-            <div class="bm-sublabel">적용 전</div>
-          </div>
-          <div class="bm-arrow">→</div>
-          <div class="bm-score">
-            <div class="bm-num after" data-countup-from="0" data-countup-to="9">9</div>
-            <div class="bm-sublabel">적용 후</div>
-          </div>
-        </div>
-        <span class="bm-delta" data-countup-pct data-countup-to="80">+80%</span>
-        <div class="bm-bar-track">
-          <div class="bm-bar-before" style="--w-before:50%;--w-after:90%"></div>
-        </div>
-        <div class="bm-bar-track" style="margin-top:6px">
-          <div class="bm-bar-after" style="--w-before:50%;--w-after:90%"></div>
-        </div>
-      </div>
-      <div class="benchmark-card reveal reveal-delay-2" data-w-before="50" data-w-after="90">
-        <div class="bm-label">의사결정 폭</div>
-        <div class="bm-scores">
-          <div class="bm-score">
-            <div class="bm-num before" data-countup-from="0" data-countup-to="5">5</div>
-            <div class="bm-sublabel">적용 전</div>
-          </div>
-          <div class="bm-arrow">→</div>
-          <div class="bm-score">
-            <div class="bm-num after" data-countup-from="0" data-countup-to="9">9</div>
-            <div class="bm-sublabel">적용 후</div>
-          </div>
-        </div>
-        <span class="bm-delta" data-countup-pct data-countup-to="80">+80%</span>
-        <div class="bm-bar-track">
-          <div class="bm-bar-before" style="--w-before:50%;--w-after:90%"></div>
-        </div>
-        <div class="bm-bar-track" style="margin-top:6px">
-          <div class="bm-bar-after" style="--w-before:50%;--w-after:90%"></div>
-        </div>
-      </div>
-      <div class="benchmark-card reveal reveal-delay-3" data-w-before="40" data-w-after="80">
-        <div class="bm-label">리뷰 깊이</div>
-        <div class="bm-scores">
-          <div class="bm-score">
-            <div class="bm-num before" data-countup-from="0" data-countup-to="4">4</div>
-            <div class="bm-sublabel">적용 전</div>
-          </div>
-          <div class="bm-arrow">→</div>
-          <div class="bm-score">
-            <div class="bm-num after" data-countup-from="0" data-countup-to="8">8</div>
-            <div class="bm-sublabel">적용 후</div>
-          </div>
-        </div>
-        <span class="bm-delta" data-countup-pct data-countup-to="100">+100%</span>
-        <div class="bm-bar-track">
-          <div class="bm-bar-before" style="--w-before:40%;--w-after:80%"></div>
-        </div>
-        <div class="bm-bar-track" style="margin-top:6px">
-          <div class="bm-bar-after" style="--w-before:40%;--w-after:80%"></div>
-        </div>
-      </div>
-    </div>
-    <div class="benchmark-total reveal">
-      <div class="bt-label">전체 차원 평균</div>
-      <div class="bt-scores">
-        <div class="bt-before">4.7</div>
-        <div style="font-size:32px;color:var(--text-subtle);padding-bottom:8px;">→</div>
-        <div class="bt-after">8.7</div>
-      </div>
-      <div class="bt-delta" data-countup-pct data-countup-to="85">+85% avg</div>
-    </div>
-  </div>
-</section>
-
-<!-- INSTALL -->
-<section id="install">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-eyebrow">// 시작하기</div>
-      <h2 class="section-title">60초면<br>준비 완료.</h2>
-      <p class="section-desc">명령어 한 줄이면 7개 스킬이 Claude Code 환경에 설치됩니다.</p>
-    </div>
-    <div class="install-methods">
-      <div class="install-method reveal reveal-delay-1">
-        <div class="install-method-header">
-          <span class="install-method-title">// npx (권장)</span>
-          <span class="install-method-badge badge-recommended">권장</span>
-        </div>
-        <div class="install-method-body">
-          <div class="code-block">
-            <span><span class="prompt-char">$</span> npx skills add whynowlab/stack-skills --all</span>
-            <button class="code-copy" onclick="copyCode(this, 'npx skills add whynowlab/stack-skills --all')">copy</button>
-          </div>
-        </div>
-      </div>
-      <div class="install-method reveal reveal-delay-2">
-        <div class="install-method-header">
-          <span class="install-method-title">// 수동 설치</span>
-          <span class="install-method-badge badge-manual">수동</span>
-        </div>
-        <div class="install-method-body">
-          <div class="code-block">
-            <span><span class="prompt-char">$</span> git clone https://github.com/whynowlab/stack-skills</span>
-            <button class="code-copy" onclick="copyCode(this, 'git clone https://github.com/whynowlab/stack-skills')">copy</button>
-          </div>
-          <div class="code-block">
-            <span><span class="prompt-char">$</span> cp -r stack-skills ~/.claude/skills/</span>
-            <button class="code-copy" onclick="copyCode(this, 'cp -r stack-skills ~/.claude/skills/')">copy</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="install-cta reveal">
-      <a href="https://github.com/whynowlab/stack-skills" target="_blank" class="btn-primary">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-        GitHub에서 보기
-      </a>
-      <a href="https://github.com/whynowlab/stack-skills/blob/main/README.md" target="_blank" class="btn-secondary">
-        문서 읽기 →
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-left">
-      만든 사람 <a href="https://github.com/whynowlab" target="_blank">@thestack_ai</a> · MIT License ·
-      <a href="https://github.com/whynowlab/stack-skills" target="_blank">github.com/whynowlab/stack-skills</a>
-    </div>
-    <div class="footer-right">
-      <a href="#hero" class="footer-link">↑ 맨 위로</a>
-      <a href="https://github.com/whynowlab/stack-skills/issues" target="_blank" class="footer-link">이슈</a>
-      <a href="https://github.com/whynowlab/stack-skills/blob/main/LICENSE" target="_blank" class="footer-link">라이선스</a>
-    </div>
-  </div>
-</footer>
-
-<script>
-/* ===== SCROLL REVEAL ===== */
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-/* ===== HERO COMPARISON ANIMATION — staggered on load ===== */
-// Hero comparison rows are in the hero (visible on load), use a timeout
-setTimeout(() => {
-  document.querySelectorAll('.hero-cmp-row').forEach((row, i) => {
-    setTimeout(() => row.classList.add('visible'), i * 400);
-  });
-}, 1200); // after hero animations finish
-
-/* ===== C.7 — Count-up animation ===== */
-function easeOutQuart(t) {
-  return 1 - Math.pow(1 - t, 4);
-}
-
-function animateCountUp(el, from, to, duration, suffix, prefix) {
-  const isFloat = String(to).includes('.');
-  const start = performance.now();
-  suffix = suffix || '';
-  prefix = prefix || '';
-  function step(now) {
-    const elapsed = now - start;
-    const progress = Math.min(elapsed / duration, 1);
-    const eased = easeOutQuart(progress);
-    const current = from + (to - from) * eased;
-    el.textContent = prefix + (isFloat ? current.toFixed(1) : Math.round(current)) + suffix;
-    if (progress < 1) requestAnimationFrame(step);
-  }
-  requestAnimationFrame(step);
-}
-
-const countUpObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const el = entry.target;
-      const to = parseFloat(el.dataset.countupTo);
-      const from = parseFloat(el.dataset.countupFrom || '0');
-      const isPct = el.hasAttribute('data-countup-pct');
-      if (isPct) {
-        animateCountUp(el, 0, to, 1200, '% avg', '+');
-        // Fix: handle both "+X%" and "+X% avg" forms
-        const rawSuffix = el.textContent.includes('avg') ? '% avg' : '%';
-        const rawPrefix = '+';
-        animateCountUp(el, 0, to, 1200, rawSuffix, rawPrefix);
-      } else {
-        animateCountUp(el, from, to, 1000, '', '');
-      }
-      countUpObserver.unobserve(el);
-    }
-  });
-}, { threshold: 0.5 });
-
-document.querySelectorAll('[data-countup-to]').forEach(el => {
-  countUpObserver.observe(el);
-});
-
-/* ===== BENCHMARK BARS ===== */
-const barObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const card = entry.target;
-      const wBefore = card.dataset.wBefore;
-      const wAfter = card.dataset.wAfter;
-      card.querySelectorAll('.bm-bar-before').forEach(b => {
-        b.style.setProperty('--w-before', wBefore + '%');
-        setTimeout(() => { b.classList.add('animated'); }, 200);
-      });
-      card.querySelectorAll('.bm-bar-after').forEach(b => {
-        b.style.setProperty('--w-after', wAfter + '%');
-        setTimeout(() => { b.classList.add('animated'); }, 400);
-      });
-      barObserver.unobserve(card);
-    }
-  });
-}, { threshold: 0.4 });
-
-document.querySelectorAll('.benchmark-card').forEach(c => barObserver.observe(c));
-
-/* ===== C.8 — Copy button with checkmark ===== */
-function setCopied(btn) {
-  btn.innerHTML = '&#10003; copied';
-  btn.classList.add('copied');
-  setTimeout(() => {
-    btn.innerHTML = 'copy';
-    btn.classList.remove('copied');
-  }, 2000);
-}
-
-function copyHero(btn) {
-  navigator.clipboard.writeText('npx skills add whynowlab/stack-skills --all').then(() => {
-    setCopied(btn);
-  });
-}
-
-function copyCode(btn, text) {
-  navigator.clipboard.writeText(text).then(() => {
-    setCopied(btn);
-  });
-}
-
-/* ===== DEMO TABS ===== */
-function switchTab(tab) {
-  document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.demo-panel').forEach(p => p.classList.remove('active'));
-  document.querySelector(`.demo-tab[onclick*="${tab}"]`).classList.add('active');
-  document.getElementById(`panel-${tab}`).classList.add('active');
-}
-
-/* ===== TERMINAL ANIMATION ENGINE ===== */
-class TerminalAnimator {
-  constructor(outputEl, cursorEl) {
-    this.output = outputEl;
-    this.cursor = cursorEl;
-    this.lines = [];
-    this.running = false;
-    this.timeouts = [];
-  }
-
-  clear() {
-    this.timeouts.forEach(t => clearTimeout(t));
-    this.timeouts = [];
-    this.output.innerHTML = '';
-    this.running = false;
-  }
-
-  schedule(fn, delay) {
-    const t = setTimeout(fn, delay);
-    this.timeouts.push(t);
-    return t;
-  }
-
-  async typeText(container, text, speed, color) {
-    return new Promise(resolve => {
-      let i = 0;
-      const span = document.createElement('span');
-      if (color) span.style.color = `var(${color})`;
-      container.appendChild(span);
-      const type = () => {
-        if (i < text.length) {
-          span.textContent += text[i++];
-          const t = setTimeout(type, speed + (Math.random() * speed * 0.4));
-          this.timeouts.push(t);
-        } else {
-          resolve();
+        // === Nav scroll effect ===
+        const nav = document.getElementById('main-nav');
+        let lastScroll = 0;
+        function updateNav() {
+            const y = window.scrollY;
+            if (y > 40) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+            lastScroll = y;
         }
-      };
-      type();
-    });
-  }
+        window.addEventListener('scroll', updateNav, { passive: true });
 
-  addLine(html, delay) {
-    return new Promise(resolve => {
-      const t = this.schedule(() => {
-        const div = document.createElement('div');
-        div.innerHTML = html;
-        div.style.opacity = '0';
-        div.style.transition = 'opacity 0.2s';
-        this.output.appendChild(div);
-        requestAnimationFrame(() => { div.style.opacity = '1'; });
-        resolve(div);
-      }, delay);
-    });
-  }
+        // === Hero grid background (desktop only) ===
+        if (!isMobile && !prefersReducedMotion) {
+            const canvas = document.getElementById('grid-canvas');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                let w, h;
+                function resize() {
+                    w = canvas.width = canvas.offsetWidth;
+                    h = canvas.height = canvas.offsetHeight;
+                }
+                resize();
+                window.addEventListener('resize', resize);
 
-  addBlankLine(delay) {
-    return new Promise(resolve => {
-      const t = this.schedule(() => {
-        const div = document.createElement('div');
-        div.innerHTML = '&nbsp;';
-        this.output.appendChild(div);
-        resolve();
-      }, delay);
-    });
-  }
-}
+                const dots = [];
+                const spacing = 40;
+                function initDots() {
+                    dots.length = 0;
+                    for (let x = 0; x < w; x += spacing) {
+                        for (let y = 0; y < h; y += spacing) {
+                            dots.push({ x, y, baseAlpha: Math.random() * 0.08 + 0.02 });
+                        }
+                    }
+                }
+                initDots();
 
-/* ===== B.5+B.6 — CREATIVITY DEMO (delays cut ~40%, bars animate from 0) ===== */
-let creativityAnimator = null;
-let creativityPlayed = false;
+                let mouseX = w / 2, mouseY = h / 2;
+                document.addEventListener('mousemove', function(e) {
+                    const rect = canvas.getBoundingClientRect();
+                    mouseX = e.clientX - rect.left;
+                    mouseY = e.clientY - rect.top;
+                });
 
-async function playCreativity() {
-  const output = document.getElementById('creativity-output');
-  const cursor = document.getElementById('cursor-creativity');
-
-  if (creativityAnimator) creativityAnimator.clear();
-  creativityAnimator = new TerminalAnimator(output, cursor);
-  output.innerHTML = '';
-
-  const A = creativityAnimator;
-  let t = 0;
-
-  const line = (html, delay) => { t += delay; return A.addLine(html, t); };
-  const blank = (delay) => { t += delay; return A.addBlankLine(t); };
-
-  await line(`<span style="color:var(--text-subtle)"># 메타인지 스킬: creativity-sampler</span>`, 0);
-  await blank(48);
-  await line(`<span style="color:var(--green)">$</span> <span style="color:var(--text)">/creativity-sampler Which database for real-time analytics?</span>`, 90);
-  await blank(36);
-  await line(`<span style="color:var(--text-subtle)">⟳ 확률 공간 샘플링 중...</span>`, 180);
-  await blank(36);
-  await line(`<span style="color:var(--purple)">━━ 옵션 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>`, 270);
-  await blank(30);
-
-  const options = [
-    { n: '1', name: 'ClickHouse',       p: '35%', barW: 35, color: '--accent' },
-    { n: '2', name: 'TimescaleDB',      p: '25%', barW: 25, color: '--accent' },
-    { n: '3', name: 'Apache Druid',     p: '20%', barW: 20, color: '--accent' },
-    { n: '4', name: 'DuckDB + Parquet', p: '12%', barW: 12, color: '--purple' },
-    { n: '5', name: 'SQLite + cr-sqlite', p: '8%', barW: 8, color: '--orange', tag: '⚡ 비관습적' },
-  ];
-
-  for (const opt of options) {
-    // B.6: bar starts at width 0, animates to target after appearing
-    const barId = `bar-${opt.n}-${Date.now()}`;
-    const tagHtml = opt.tag ? ` <span style="color:var(--orange);font-size:11px">${opt.tag}</span>` : '';
-    const lineEl = await line(
-      `  <span style="color:var(--text-subtle)">${opt.n}.</span> <span style="color:var(${opt.color})">${opt.name}</span><span class="option-bar" id="${barId}" data-target-w="${opt.barW * 2}"></span><span style="color:var(--text-subtle)">p ≈ ${opt.p}</span>${tagHtml}`,
-      228
-    );
-    // Trigger bar animation after a tick
-    setTimeout(() => {
-      const barEl = document.getElementById(barId);
-      if (barEl) {
-        barEl.style.background = `var(${opt.color})`;
-        barEl.style.width = opt.barW * 2 + 'px';
-      }
-    }, 60);
-  }
-
-  await blank(36);
-  await line(`<span style="color:var(--purple)">━━ 숨겨진 가정 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>`, 180);
-  await blank(30);
-  await line(`  <span style="color:var(--text-subtle)">→</span> <span style="color:var(--text)">"실시간"이 &lt;100ms 쿼리인지 초 단위 수집인지 불명확</span>`, 150);
-  await line(`  <span style="color:var(--text-subtle)">→</span> <span style="color:var(--text)">규모: 1GB/일 vs 1TB/일이면 최적 경로가 달라짐</span>`, 150);
-  await line(`  <span style="color:var(--text-subtle)">→</span> <span style="color:var(--text)">운영 복잡도 예산 미지정</span>`, 150);
-  await blank(30);
-  await line(`<span style="color:var(--green)">✓ 전형성 편향 극복 — 5개 고유 경로 도출</span>`, 180);
-
-  creativityPlayed = true;
-}
-
-function replayCreativity() {
-  creativityPlayed = false;
-  playCreativity();
-}
-
-/* ===== B.5 — ADVERSARIAL DEMO (delays cut ~40%) ===== */
-let adversarialAnimator = null;
-let adversarialPlayed = false;
-
-async function playAdversarial() {
-  const output = document.getElementById('adversarial-output');
-  const cursor = document.getElementById('cursor-adversarial');
-
-  if (adversarialAnimator) adversarialAnimator.clear();
-  adversarialAnimator = new TerminalAnimator(output, cursor);
-  output.innerHTML = '';
-
-  const A = adversarialAnimator;
-  let t = 0;
-
-  const line = (html, delay) => { t += delay; return A.addLine(html, t); };
-  const blank = (delay) => { t += delay; return A.addBlankLine(t); };
-
-  await line(`<span style="color:var(--text-subtle)"># 메타인지 스킬: adversarial-review</span>`, 0);
-  await blank(48);
-  await line(`<span style="color:var(--green)">$</span> <span style="color:var(--text)">/adversarial-review "Migrate auth from JWT to session-based"</span>`, 90);
-  await blank(36);
-  await line(`<span style="color:var(--text-subtle)">⟳ 악마의 변호인 분석 실행 중...</span>`, 180);
-  await line(`<span style="color:var(--text-subtle)">⟳ 공격 벡터 생성 중 (최소 3개 이슈 필수)...</span>`, 270);
-  await blank(36);
-
-  const vectors = [
-    {
-      n: '1', title: '확장성 퇴행',
-      points: [
-        '세션은 서버 측 저장소 필요 — 수평 확장 시 중단',
-        'Redis 의존성 추가 (단일 장애점)',
-        '멀티 인스턴스 환경에 스티키 세션 또는 공유 캐시 필요'
-      ]
-    },
-    {
-      n: '2', title: '모바일 클라이언트 파손',
-      points: [
-        '네이티브 모바일 앱은 HTTP-only 쿠키 처리가 일관되지 않음',
-        'React Native / Expo는 커스텀 세션 핸들링 필요',
-        '전환 시 localStorage의 기존 JWT 토큰 무효화'
-      ]
-    },
-    {
-      n: '3', title: '마이그레이션 갭 리스크',
-      points: [
-        '무중단 마이그레이션엔 이중 인증 지원 기간 필요',
-        '토큰 만료 vs 세션 TTL 의미론 차이 — 엣지 케이스 발생',
-        '탭 간 로그아웃 전파가 기본으로 처리되지 않음'
-      ]
-    }
-  ];
-
-  for (const v of vectors) {
-    await line(
-      `<span style="color:var(--red);font-weight:bold">▶ 공격 벡터 ${v.n}: ${v.title}</span>`,
-      330
-    );
-    for (const point of v.points) {
-      await line(`  <span style="color:var(--text-subtle)">•</span> <span style="color:var(--text-muted)">${point}</span>`, 150);
-    }
-    await blank(36);
-  }
-
-  await line(`<span style="color:var(--purple)">━━ 판정 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>`, 150);
-  await blank(30);
-  await line(`<span style="color:var(--gold);font-weight:bold">⚠  조건부 통과</span>`, 210);
-  await line(`<span style="color:var(--text-muted)">   벡터 1(인프라)과 벡터 2(모바일) 해결 후 진행하세요.</span>`, 120);
-  await line(`<span style="color:var(--text-muted)">   벡터 3은 이중 인증 기간이 포함된 단계적 배포 계획 필요.</span>`, 120);
-
-  adversarialPlayed = true;
-}
-
-function replayAdversarial() {
-  adversarialPlayed = false;
-  playAdversarial();
-}
-
-/* ===== AUTO-PLAY ON SCROLL ===== */
-let demoObserved = false;
-
-const demoObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting && !demoObserved) {
-      demoObserved = true;
-      playCreativity();
-    }
-  });
-}, { threshold: 0.3 });
-
-const demoSection = document.getElementById('demo');
-if (demoSection) demoObserver.observe(demoSection);
-
-/* Tab switching with auto-play */
-const originalSwitchTab = switchTab;
-window.switchTab = function(tab) {
-  originalSwitchTab(tab);
-  if (tab === 'creativity' && !creativityPlayed) {
-    setTimeout(playCreativity, 200);
-  } else if (tab === 'adversarial' && !adversarialPlayed) {
-    setTimeout(playAdversarial, 200);
-  } else if (tab === 'adversarial') {
-    adversarialPlayed = true;
-    setTimeout(playAdversarial, 200);
-  }
-};
-
-// Lazy-init adversarial when tab becomes active
-document.querySelector('.demo-tab[onclick*="adversarial"]').addEventListener('click', function() {
-  if (!adversarialPlayed) {
-    setTimeout(playAdversarial, 250);
-    adversarialPlayed = true;
-  }
-});
-
-/* ===== A.4 — Radial glow follows mouse on cards ===== */
-document.querySelectorAll('.skill-card, .problem-card').forEach(card => {
-  card.addEventListener('mousemove', (e) => {
-    const rect = card.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1) + '%';
-    const y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1) + '%';
-    card.style.setProperty('--mx', x);
-    card.style.setProperty('--my', y);
-  });
-});
-
-/* ===== SAFETY FALLBACK: force all reveals visible after 5s ===== */
-setTimeout(() => {
-  document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
-    el.classList.add('visible');
-  });
-  // Also trigger benchmark bars if not yet animated
-  document.querySelectorAll('.benchmark-card').forEach(card => {
-    const wBefore = card.dataset.wBefore;
-    const wAfter = card.dataset.wAfter;
-    if (wBefore && wAfter) {
-      card.querySelectorAll('.bm-bar-before').forEach(b => {
-        if (!b.classList.contains('animated')) {
-          b.style.setProperty('--w-before', wBefore + '%');
-          b.classList.add('animated');
+                let scrollFactor = 0;
+                function drawGrid() {
+                    ctx.clearRect(0, 0, w, h);
+                    scrollFactor = window.scrollY * 0.0005;
+                    for (let i = 0; i < dots.length; i++) {
+                        const d = dots[i];
+                        const dx = d.x - mouseX;
+                        const dy = d.y - mouseY;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        const proximity = Math.max(0, 1 - dist / 250);
+                        const alpha = d.baseAlpha + proximity * 0.15 - scrollFactor;
+                        if (alpha <= 0) continue;
+                        ctx.fillStyle = 'rgba(77, 162, 255,' + Math.min(alpha, 0.3) + ')';
+                        const size = 1 + proximity * 1.5;
+                        ctx.beginPath();
+                        ctx.arc(d.x, d.y, size, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    requestAnimationFrame(drawGrid);
+                }
+                drawGrid();
+                window.addEventListener('resize', initDots);
+            }
         }
-      });
-      card.querySelectorAll('.bm-bar-after').forEach(b => {
-        if (!b.classList.contains('animated')) {
-          b.style.setProperty('--w-after', wAfter + '%');
-          b.classList.add('animated');
+
+        // === Intersection Observer ===
+        const observerOptions = { root: null, rootMargin: '0px 0px -60px 0px', threshold: 0.12 };
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in, .slide-left, .slide-right').forEach(function(el) {
+            observer.observe(el);
+        });
+
+        // Stagger observer
+        const staggerObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    const children = entry.target.children;
+                    for (let i = 0; i < children.length; i++) {
+                        children[i].style.transitionDelay = (i * 0.1) + 's';
+                    }
+                    staggerObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.stagger-children').forEach(function(el) {
+            staggerObserver.observe(el);
+        });
+
+        // === Typing Animation ===
+        const typingContainer = document.getElementById('typing-text');
+        if (!prefersReducedMotion && typingContainer) {
+            const textToType = "Your AI is... confident \u2713 fast \u2713 articulate \u2713 ...not swinging at all.";
+            let index = 0;
+            const cursor = typingContainer.querySelector('.cursor');
+
+            function typeWriter() {
+                if (index < textToType.length) {
+                    const ch = textToType.charAt(index);
+                    const span = document.createTextNode(ch);
+                    typingContainer.insertBefore(span, cursor);
+                    index++;
+                    let delay = 38;
+                    if (ch === '\u2713') delay = 500;
+                    else if (ch === '.') delay = 120;
+                    setTimeout(typeWriter, delay);
+                } else {
+                    // Remove cursor after typing done
+                    setTimeout(function() { cursor.style.display = 'none'; }, 2000);
+                }
+            }
+            setTimeout(typeWriter, 800);
+        } else if (typingContainer) {
+            typingContainer.textContent = "Your AI is... confident \u2713 fast \u2713 articulate \u2713 ...not swinging at all.";
         }
-      });
-    }
-  });
-}, 5000);
-</script>
+
+        // === Terminal Demo ===
+        const asciiArt = [
+            '  \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2557    \u2588\u2588\u2557\u2588\u2588\u2557\u2588\u2588\u2588\u2557   \u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2588\u2557',
+            '  \u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255D\u2588\u2588\u2551    \u2588\u2588\u2551\u2588\u2588\u2551\u2588\u2588\u2588\u2588\u2557  \u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255D',
+            '  \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2551 \u2588\u2557 \u2588\u2588\u2551\u2588\u2588\u2551\u2588\u2588\u2554\u2588\u2588\u2557 \u2588\u2588\u2551\u2588\u2588\u2551  \u2588\u2588\u2588\u2557',
+            '  \u255A\u2550\u2550\u2550\u2550\u2588\u2588\u2551\u2588\u2588\u2551\u2588\u2588\u2588\u2557\u2588\u2588\u2551\u2588\u2588\u2551\u2588\u2588\u2551\u255A\u2588\u2588\u2557\u2588\u2588\u2551\u2588\u2588\u2551   \u2588\u2588\u2551',
+            '  \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2551\u255A\u2588\u2588\u2588\u2554\u2588\u2588\u2588\u2554\u255D\u2588\u2588\u2551\u2588\u2588\u2551 \u255A\u2588\u2588\u2588\u2588\u2551\u255A\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255D',
+            '  \u255A\u2550\u2550\u2550\u2550\u2550\u2550\u255D \u255A\u2550\u2550\u255D\u255A\u2550\u2550\u255D \u255A\u2550\u255D\u255A\u2550\u255D  \u255A\u2550\u2550\u2550\u255D \u255A\u2550\u2550\u2550\u2550\u2550\u255D',
+        ];
+
+        const terminalLines = [
+            // Phase 1: Install command (typed char by char)
+            { type: 'cmd', text: '$ npx skills add swing-skills --all', delay: 50 },
+            // Phase 2: blank line
+            { type: 'blank', text: '', delay: 300 },
+            // Phase 3: ASCII art (line by line)
+            { type: 'ascii', text: asciiArt[0], delay: 80 },
+            { type: 'ascii', text: asciiArt[1], delay: 80 },
+            { type: 'ascii', text: asciiArt[2], delay: 80 },
+            { type: 'ascii', text: asciiArt[3], delay: 80 },
+            { type: 'ascii', text: asciiArt[4], delay: 80 },
+            { type: 'ascii', text: asciiArt[5], delay: 80 },
+            // Phase 4: blank line
+            { type: 'blank', text: '', delay: 200 },
+            // Phase 5: checkmarks
+            { type: 'check', text: '  \u2713 swing-clarify    \u2014 Premature closure firewall', delay: 180 },
+            { type: 'check', text: '  \u2713 swing-research   \u2014 Hallucination firewall', delay: 180 },
+            { type: 'check', text: '  \u2713 swing-options    \u2014 Anchoring bias firewall', delay: 180 },
+            { type: 'check', text: '  \u2713 swing-review     \u2014 Confirmation bias firewall', delay: 180 },
+            { type: 'check', text: '  \u2713 swing-trace      \u2014 Black-box reasoning firewall', delay: 180 },
+            { type: 'check', text: '  \u2713 swing-mortem     \u2014 Optimism bias firewall', delay: 180 },
+            // Phase 6: blank + summary
+            { type: 'blank', text: '', delay: 300 },
+            { type: 'bold', text: '  6 firewalls installed. Your AI is now swinging.', delay: 600 },
+            // Phase 7: blank line
+            { type: 'blank', text: '', delay: 500 },
+            // Phase 8: Second command (typed)
+            { type: 'cmd', text: '$ /swing-research Is SQLite viable for 1000 concurrent users?', delay: 40 },
+            // Phase 9: blank
+            { type: 'blank', text: '', delay: 400 },
+            // Phase 10: spinners
+            { type: 'spinner', text: '  \u23F3 Deconstructing query...', delay: 800 },
+            { type: 'spinner', text: '  \uD83D\uDD0D Searching 5 sources...', delay: 900 },
+            { type: 'spinner-ok', text: '  \u2705 Cross-verifying claims...', delay: 700 },
+            // Phase 11: blank
+            { type: 'blank', text: '', delay: 300 },
+            // Phase 12: result
+            { type: 'bold', text: '  Result: Yes, with caveats.', delay: 100 },
+            { type: 'output', text: '  1000 users \u2260 1000 writers. SQLite handles ~120 writes/sec in WAL mode.', delay: 100 },
+            { type: 'dim', text: '  Sources: \uD83C\uDFDB\uFE0F sqlite.org (S), \uD83D\uDEE1\uFE0F Expensify blog (A)', delay: 0 },
+        ];
+
+        const terminalBody = document.getElementById('terminal-body');
+        let terminalStarted = false;
+
+        function runTerminal() {
+            if (terminalStarted) return;
+            terminalStarted = true;
+
+            if (prefersReducedMotion) {
+                // Show everything immediately
+                terminalLines.forEach(function(line) {
+                    const div = document.createElement('div');
+                    div.className = 'line shown';
+                    if (line.type === 'cmd') div.classList.add('cmd');
+                    else if (line.type === 'ascii') div.classList.add('ascii');
+                    else if (line.type === 'check') div.classList.add('ok');
+                    else if (line.type === 'bold') div.classList.add('bold');
+                    else if (line.type === 'dim') div.classList.add('dim');
+                    else if (line.type === 'spinner') div.classList.add('warn');
+                    else if (line.type === 'spinner-ok') div.classList.add('ok');
+                    div.textContent = line.text || '\u00A0';
+                    terminalBody.appendChild(div);
+                });
+                return;
+            }
+
+            let cumDelay = 0;
+            const allElements = [];
+
+            terminalLines.forEach(function(line, idx) {
+                if (line.type === 'cmd') {
+                    // Create element for typing
+                    const div = document.createElement('div');
+                    div.className = 'line cmd shown';
+                    div.textContent = '';
+                    terminalBody.appendChild(div);
+                    allElements.push(div);
+
+                    const fullText = line.text;
+                    const startDelay = cumDelay + 200;
+
+                    // Type each character
+                    for (let c = 0; c < fullText.length; c++) {
+                        (function(charIdx, d) {
+                            setTimeout(function() {
+                                div.textContent = fullText.substring(0, charIdx + 1);
+                            }, d);
+                        })(c, startDelay + c * line.delay);
+                    }
+                    cumDelay = startDelay + fullText.length * line.delay + 300;
+
+                } else if (line.type === 'ascii') {
+                    // ASCII art lines appear one by one
+                    const div = document.createElement('div');
+                    div.className = 'line ascii';
+                    div.textContent = line.text;
+                    terminalBody.appendChild(div);
+                    allElements.push(div);
+
+                    cumDelay += line.delay;
+                    (function(el, d) {
+                        setTimeout(function() { el.classList.add('shown'); }, d);
+                    })(div, cumDelay);
+
+                } else if (line.type === 'check') {
+                    // Green checkmark lines
+                    const div = document.createElement('div');
+                    div.className = 'line ok';
+                    div.textContent = line.text;
+                    terminalBody.appendChild(div);
+                    allElements.push(div);
+
+                    cumDelay += line.delay;
+                    (function(el, d) {
+                        setTimeout(function() { el.classList.add('shown'); }, d);
+                    })(div, cumDelay);
+
+                } else if (line.type === 'spinner') {
+                    const div = document.createElement('div');
+                    div.className = 'line warn';
+                    div.textContent = line.text;
+                    terminalBody.appendChild(div);
+                    allElements.push(div);
+
+                    cumDelay += 200;
+                    (function(el, d) {
+                        setTimeout(function() { el.classList.add('shown'); }, d);
+                    })(div, cumDelay);
+                    cumDelay += line.delay;
+
+                } else if (line.type === 'spinner-ok') {
+                    const div = document.createElement('div');
+                    div.className = 'line ok';
+                    div.textContent = line.text;
+                    terminalBody.appendChild(div);
+                    allElements.push(div);
+
+                    cumDelay += 200;
+                    (function(el, d) {
+                        setTimeout(function() { el.classList.add('shown'); }, d);
+                    })(div, cumDelay);
+                    cumDelay += line.delay;
+
+                } else if (line.type === 'bold') {
+                    const div = document.createElement('div');
+                    div.className = 'line bold';
+                    div.textContent = line.text;
+                    terminalBody.appendChild(div);
+                    allElements.push(div);
+
+                    cumDelay += line.delay;
+                    (function(el, d) {
+                        setTimeout(function() { el.classList.add('shown'); }, d);
+                    })(div, cumDelay);
+                    cumDelay += 80;
+
+                } else if (line.type === 'output') {
+                    const div = document.createElement('div');
+                    div.className = 'line';
+                    div.textContent = line.text;
+                    terminalBody.appendChild(div);
+                    allElements.push(div);
+
+                    cumDelay += line.delay;
+                    (function(el, d) {
+                        setTimeout(function() { el.classList.add('shown'); }, d);
+                    })(div, cumDelay);
+                    cumDelay += 80;
+
+                } else if (line.type === 'dim') {
+                    const div = document.createElement('div');
+                    div.className = 'line dim';
+                    div.textContent = line.text;
+                    terminalBody.appendChild(div);
+                    allElements.push(div);
+
+                    cumDelay += line.delay || 100;
+                    (function(el, d) {
+                        setTimeout(function() { el.classList.add('shown'); }, d);
+                    })(div, cumDelay);
+                    cumDelay += 80;
+
+                } else {
+                    // blank
+                    const div = document.createElement('div');
+                    div.className = 'line';
+                    div.textContent = '\u00A0';
+                    terminalBody.appendChild(div);
+                    allElements.push(div);
+
+                    cumDelay += line.delay;
+                    (function(el, d) {
+                        setTimeout(function() { el.classList.add('shown'); }, d);
+                    })(div, cumDelay);
+                }
+            });
+
+            // Add blinking cursor at the end
+            setTimeout(function() {
+                const cursorDiv = document.createElement('div');
+                cursorDiv.className = 'line shown';
+                const cursorSpan = document.createElement('span');
+                cursorSpan.className = 'terminal-cursor';
+                cursorSpan.innerHTML = '&nbsp;';
+                cursorDiv.appendChild(cursorSpan);
+                terminalBody.appendChild(cursorDiv);
+            }, cumDelay + 200);
+        }
+
+        // Start terminal when it scrolls into view
+        const terminalObs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    runTerminal();
+                    terminalObs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+        terminalObs.observe(document.getElementById('terminal-demo'));
+
+        // === Pipeline Animation ===
+        const pipelineEl = document.getElementById('pipeline-flow');
+        let pipelineStarted = false;
+
+        function animatePipeline() {
+            if (pipelineStarted) return;
+            pipelineStarted = true;
+            const nodes = pipelineEl.querySelectorAll('.pipe-node');
+            const arrows = pipelineEl.querySelectorAll('.pipe-arrow');
+
+            if (prefersReducedMotion) {
+                nodes.forEach(function(n) { n.classList.add('active'); });
+                arrows.forEach(function(a) { a.classList.add('active'); });
+                return;
+            }
+
+            let delay = 0;
+            nodes.forEach(function(node, i) {
+                setTimeout(function() { node.classList.add('active'); }, delay);
+                delay += 300;
+                if (i < arrows.length) {
+                    (function(idx, d) {
+                        setTimeout(function() { arrows[idx].classList.add('active'); }, d);
+                    })(i, delay);
+                    delay += 200;
+                }
+            });
+        }
+
+        const pipelineObs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    animatePipeline();
+                    pipelineObs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+        pipelineObs.observe(pipelineEl);
+
+        // === Footer text reveal ===
+        const footerText = document.getElementById('footer-text');
+        if (footerText) {
+            const text = footerText.textContent;
+            footerText.innerHTML = '';
+            for (let i = 0; i < text.length; i++) {
+                const span = document.createElement('span');
+                span.className = 'char';
+                span.textContent = text[i] === ' ' ? '\u00A0' : text[i];
+                if (!prefersReducedMotion) {
+                    span.style.transitionDelay = (i * 0.05) + 's';
+                }
+                footerText.appendChild(span);
+            }
+
+            const footerObs = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        footerObs.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.3 });
+            footerObs.observe(footerText);
+        }
+
+        // === Copy utility ===
+        window.copyText = async function(elementId, btnElement) {
+            const text = document.getElementById(elementId).innerText;
+            try {
+                await navigator.clipboard.writeText(text);
+                const original = btnElement.innerText;
+                btnElement.innerText = 'Copied!';
+                btnElement.classList.add('success');
+                setTimeout(function() {
+                    btnElement.innerText = original;
+                    btnElement.classList.remove('success');
+                }, 2000);
+            } catch (err) {
+                // Fallback: select text
+                const range = document.createRange();
+                range.selectNode(document.getElementById(elementId));
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+            }
+        };
+
+        // === Smooth scroll for nav links ===
+        document.querySelectorAll('.nav-links a[href^="#"]').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    })();
+    </script>
 </body>
 </html>
