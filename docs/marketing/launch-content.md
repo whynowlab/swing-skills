@@ -42,7 +42,7 @@ I identified 6 distinct cognitive failures in AI coding agents and built a "fire
 | Black-box reasoning | swing-trace | Assumption inventory + weakest link |
 | Optimism bias | swing-mortem | Assumes failure, works backward |
 
-Install: `npx skills add swing-skills --all`
+Install: `npx skills add whynowlab/swing-skills --all`
 
 MIT licensed, works with Claude Code + other agents via Agent Skills standard.
 
@@ -76,7 +76,7 @@ I mapped 6 distinct cognitive failures (hallucination, anchoring, confirmation b
 
 Each skill has explicit quality calibration with BAD and GOOD output examples, so the AI knows exactly what's expected.
 
-Install: npx skills add swing-skills --all
+Install: npx skills add whynowlab/swing-skills --all
 
 Works with Claude Code, Cursor, Copilot via Agent Skills standard. MIT licensed.
 
@@ -155,7 +155,7 @@ Not vibes. Structure.
 ```
 Install in 30 seconds:
 
-npx skills add swing-skills --all
+npx skills add whynowlab/swing-skills --all
 
 Works with Claude Code, Cursor, Copilot.
 MIT licensed. 6 skills. Zero config.
@@ -254,7 +254,7 @@ Not better answers. *Structurally different reasoning.*
 ## Try it
 
 ```bash
-npx skills add swing-skills --all
+npx skills add whynowlab/swing-skills --all
 ```
 
 Six skills. Each targets one cognitive failure. Use one, or chain them.
@@ -294,7 +294,7 @@ SQLite가 1000명 동시접속을 감당할 수 있냐고 물었더니 "안 됩�
 
 Claude Code, Cursor, Copilot 호환. MIT 라이선스.
 
-설치: npx skills add swing-skills --all
+설치: npx skills add whynowlab/swing-skills --all
 ```
 
 ---
@@ -321,7 +321,7 @@ With swing-research, it found WAL mode handles ~120 writes/sec, and Expensify ru
 - swing-trace (black-box reasoning)
 - swing-mortem (optimism bias)
 
-npx skills add swing-skills --all
+npx skills add whynowlab/swing-skills --all
 
 Would love feedback from anyone who tries it.
 https://github.com/whynowlab/swing-skills

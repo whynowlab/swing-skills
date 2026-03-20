@@ -30,7 +30,7 @@
 It picks the safe default, agrees when it should push back, cites no sources, hides its reasoning, and assumes everything will work. Six cognitive failures. Six firewalls. Make it swing.
 
 ```
-npx skills add swing-skills --all
+npx skills add whynowlab/swing-skills --all
 ```
 
 > Built for [Claude Code](https://claude.com/claude-code) | Compatible with AI agents via [Agent Skills](https://agentskills.io) open standard
@@ -263,18 +263,18 @@ You could paste these instructions into CLAUDE.md or a system prompt. But:
 ### Quick Install (npx)
 
 ```bash
-npx skills add swing-skills --all
+npx skills add whynowlab/swing-skills --all
 ```
 
 ### Individual Skills
 
 ```bash
-npx skills add swing-skills/swing-clarify
-npx skills add swing-skills/swing-research
-npx skills add swing-skills/swing-review
-npx skills add swing-skills/swing-options
-npx skills add swing-skills/swing-trace
-npx skills add swing-skills/swing-mortem
+npx skills add whynowlab/swing-skills@swing-clarify
+npx skills add whynowlab/swing-skills@swing-research
+npx skills add whynowlab/swing-skills@swing-review
+npx skills add whynowlab/swing-skills@swing-options
+npx skills add whynowlab/swing-skills@swing-trace
+npx skills add whynowlab/swing-skills@swing-mortem
 ```
 
 ### Manual

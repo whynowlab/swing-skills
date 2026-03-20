@@ -30,7 +30,7 @@
 안전한 기본값만 고르고, 반박 대신 동의하고, 출처를 밝히지 않고, 추론을 숨기고, 모든 게 잘 될 거라 가정한다. 여섯 가지 인지 실패. 여섯 개의 방화벽. Make it swing.
 
 ```
-npx skills add swing-skills --all
+npx skills add whynowlab/swing-skills --all
 ```
 
 > [Claude Code](https://claude.com/claude-code) 전용 | [Agent Skills](https://agentskills.io) 오픈 표준으로 다른 AI 에이전트 호환
@@ -263,18 +263,18 @@ Swing 적용 시:
 ### 빠른 설치 (npx)
 
 ```bash
-npx skills add swing-skills --all
+npx skills add whynowlab/swing-skills --all
 ```
 
 ### 개별 설치
 
 ```bash
-npx skills add swing-skills/swing-clarify
-npx skills add swing-skills/swing-research
-npx skills add swing-skills/swing-review
-npx skills add swing-skills/swing-options
-npx skills add swing-skills/swing-trace
-npx skills add swing-skills/swing-mortem
+npx skills add whynowlab/swing-skills@swing-clarify
+npx skills add whynowlab/swing-skills@swing-research
+npx skills add whynowlab/swing-skills@swing-review
+npx skills add whynowlab/swing-skills@swing-options
+npx skills add whynowlab/swing-skills@swing-trace
+npx skills add whynowlab/swing-skills@swing-mortem
 ```
 
 ### 수동 설치
