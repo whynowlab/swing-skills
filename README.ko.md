@@ -5,16 +5,16 @@
 <h1 align="center">Swing</h1>
 
 <p align="center">
-  <a href="https://github.com/whynowlab/swing-skills/stargazers"><img src="https://img.shields.io/github/stars/whynowlab/swing-skills?style=flat&color=58a6ff" alt="Stars"></a>
-  <a href="https://github.com/whynowlab/swing-skills/releases"><img src="https://img.shields.io/github/v/tag/whynowlab/swing-skills?label=version&color=3fb950" alt="Version"></a>
-  <a href="https://github.com/whynowlab/swing-skills/blob/main/LICENSE"><img src="https://img.shields.io/github/license/whynowlab/swing-skills?color=8b949e" alt="License"></a>
-  <a href="https://github.com/whynowlab/swing-skills/commits/main"><img src="https://img.shields.io/github/commit-activity/m/whynowlab/swing-skills?color=58a6ff" alt="Commits"></a>
+  <a href="https://github.com/thestack-ai/swing-skills/stargazers"><img src="https://img.shields.io/github/stars/thestack-ai/swing-skills?style=flat&color=58a6ff" alt="Stars"></a>
+  <a href="https://github.com/thestack-ai/swing-skills/releases"><img src="https://img.shields.io/github/v/tag/thestack-ai/swing-skills?label=version&color=3fb950" alt="Version"></a>
+  <a href="https://github.com/thestack-ai/swing-skills/blob/main/LICENSE"><img src="https://img.shields.io/github/license/thestack-ai/swing-skills?color=8b949e" alt="License"></a>
+  <a href="https://github.com/thestack-ai/swing-skills/commits/main"><img src="https://img.shields.io/github/commit-activity/m/thestack-ai/swing-skills?color=58a6ff" alt="Commits"></a>
   <a href="https://x.com/thestack_ai"><img src="https://img.shields.io/badge/follow-@thestack__ai-1DA1F2?logo=x&logoColor=white" alt="Twitter"></a>
   <br>
   <img src="https://img.shields.io/badge/skills-6_firewalls-58a6ff" alt="6 Firewalls">
   <img src="https://img.shields.io/badge/Claude_Code-compatible-bc8cff?logo=anthropic&logoColor=white" alt="Claude Code">
   <img src="https://img.shields.io/badge/Codex_CLI-compatible-3fb950?logo=openai&logoColor=white" alt="Codex CLI">
-  <a href="https://github.com/whynowlab/swing-skills/pulls"><img src="https://img.shields.io/badge/PRs-welcome-3fb950" alt="PRs Welcome"></a>
+  <a href="https://github.com/thestack-ai/swing-skills/pulls"><img src="https://img.shields.io/badge/PRs-welcome-3fb950" alt="PRs Welcome"></a>
 </p>
 
 <p align="right">
@@ -30,11 +30,11 @@
 안전한 기본값만 고르고, 반박 대신 동의하고, 출처를 밝히지 않고, 추론을 숨기고, 모든 게 잘 될 거라 가정한다. 여섯 가지 인지 실패. 여섯 개의 방화벽. Make it swing.
 
 ```
-npx skills add whynowlab/swing-skills --all
+npx skills add thestack-ai/swing-skills --all
 ```
 
 > [Claude Code](https://claude.com/claude-code) 전용 | [Agent Skills](https://agentskills.io) 오픈 표준으로 다른 AI 에이전트 호환
-> Created by [@thestack_ai](https://github.com/whynowlab)
+> Created by [@thestack_ai](https://github.com/thestack-ai)
 
 ---
 
@@ -263,24 +263,24 @@ Swing 적용 시:
 ### 빠른 설치 (npx)
 
 ```bash
-npx skills add whynowlab/swing-skills --all
+npx skills add thestack-ai/swing-skills --all
 ```
 
 ### 개별 설치
 
 ```bash
-npx skills add whynowlab/swing-skills@swing-clarify
-npx skills add whynowlab/swing-skills@swing-research
-npx skills add whynowlab/swing-skills@swing-review
-npx skills add whynowlab/swing-skills@swing-options
-npx skills add whynowlab/swing-skills@swing-trace
-npx skills add whynowlab/swing-skills@swing-mortem
+npx skills add thestack-ai/swing-skills@swing-clarify
+npx skills add thestack-ai/swing-skills@swing-research
+npx skills add thestack-ai/swing-skills@swing-review
+npx skills add thestack-ai/swing-skills@swing-options
+npx skills add thestack-ai/swing-skills@swing-trace
+npx skills add thestack-ai/swing-skills@swing-mortem
 ```
 
 ### 수동 설치
 
 ```bash
-git clone https://github.com/whynowlab/swing-skills.git
+git clone https://github.com/thestack-ai/swing-skills.git
 cp -r swing-skills/skills/* ~/.claude/skills/
 ```
 
@@ -309,4 +309,4 @@ MIT License. [LICENSE](LICENSE) 참조.
 
 ---
 
-**Swing** by [@thestack_ai](https://github.com/whynowlab) — AI를 위한 6개의 인지 방화벽.
+**Swing** by [@thestack_ai](https://github.com/thestack-ai) — AI를 위한 6개의 인지 방화벽.

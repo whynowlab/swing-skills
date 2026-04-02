@@ -3,10 +3,10 @@
   "description": "6 cognitive firewalls for AI coding agents. Defends against premature closure, hallucination, anchoring bias, confirmation bias, black-box reasoning, and optimism bias.",
   "version": "3.1.0",
   "author": {
-    "name": "whynowlab",
-    "url": "https://github.com/whynowlab"
+    "name": "thestack-ai",
+    "url": "https://github.com/thestack-ai"
   },
-  "homepage": "https://github.com/whynowlab/swing-skills",
-  "repository": "https://github.com/whynowlab/swing-skills",
+  "homepage": "https://github.com/thestack-ai/swing-skills",
+  "repository": "https://github.com/thestack-ai/swing-skills",
   "license": "MIT"
 }

@@ -5,14 +5,14 @@
   "display_name": "Stack Skills",
   "description": "6 cognitive firewalls for AI coding agents. Defends against premature closure, hallucination, anchoring bias, confirmation bias, black-box reasoning, and optimism bias.",
   "author": "thestack_ai",
-  "owner": "whynowlab",
-  "homepage": "https://github.com/whynowlab/stack-skills",
+  "owner": "thestack-ai",
+  "homepage": "https://github.com/thestack-ai/stack-skills",
   "plugins": [
     {
       "name": "stack-skills",
       "description": "6 cognitive firewalls — scope clarification, cross-verified research, adversarial review, creativity sampling, reasoning tracing, and pre-mortem failure analysis.",
       "skills_path": "skills",
-      "source": "https://github.com/whynowlab/stack-skills"
+      "source": "https://github.com/thestack-ai/stack-skills"
     }
   ]
 }

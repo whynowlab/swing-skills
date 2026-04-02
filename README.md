@@ -5,16 +5,16 @@
 <h1 align="center">Swing — AI Agent Guardrails for Claude Code</h1>
 
 <p align="center">
-  <a href="https://github.com/whynowlab/swing-skills/stargazers"><img src="https://img.shields.io/github/stars/whynowlab/swing-skills?style=flat&color=58a6ff" alt="Stars"></a>
-  <a href="https://github.com/whynowlab/swing-skills/releases"><img src="https://img.shields.io/github/v/tag/whynowlab/swing-skills?label=version&color=3fb950" alt="Version"></a>
-  <a href="https://github.com/whynowlab/swing-skills/blob/main/LICENSE"><img src="https://img.shields.io/github/license/whynowlab/swing-skills?color=8b949e" alt="License"></a>
-  <a href="https://github.com/whynowlab/swing-skills/commits/main"><img src="https://img.shields.io/github/commit-activity/m/whynowlab/swing-skills?color=58a6ff" alt="Commits"></a>
+  <a href="https://github.com/thestack-ai/swing-skills/stargazers"><img src="https://img.shields.io/github/stars/thestack-ai/swing-skills?style=flat&color=58a6ff" alt="Stars"></a>
+  <a href="https://github.com/thestack-ai/swing-skills/releases"><img src="https://img.shields.io/github/v/tag/thestack-ai/swing-skills?label=version&color=3fb950" alt="Version"></a>
+  <a href="https://github.com/thestack-ai/swing-skills/blob/main/LICENSE"><img src="https://img.shields.io/github/license/thestack-ai/swing-skills?color=8b949e" alt="License"></a>
+  <a href="https://github.com/thestack-ai/swing-skills/commits/main"><img src="https://img.shields.io/github/commit-activity/m/thestack-ai/swing-skills?color=58a6ff" alt="Commits"></a>
   <a href="https://x.com/thestack_ai"><img src="https://img.shields.io/badge/follow-@thestack__ai-1DA1F2?logo=x&logoColor=white" alt="Twitter"></a>
   <br>
   <img src="https://img.shields.io/badge/skills-6_firewalls-58a6ff" alt="6 Firewalls">
   <img src="https://img.shields.io/badge/Claude_Code-compatible-bc8cff?logo=anthropic&logoColor=white" alt="Claude Code">
   <img src="https://img.shields.io/badge/Codex_CLI-compatible-3fb950?logo=openai&logoColor=white" alt="Codex CLI">
-  <a href="https://github.com/whynowlab/swing-skills/pulls"><img src="https://img.shields.io/badge/PRs-welcome-3fb950" alt="PRs Welcome"></a>
+  <a href="https://github.com/thestack-ai/swing-skills/pulls"><img src="https://img.shields.io/badge/PRs-welcome-3fb950" alt="PRs Welcome"></a>
 </p>
 
 <p align="right">
@@ -30,11 +30,11 @@
 It picks the safe default, agrees when it should push back, cites no sources, hides its reasoning, and assumes everything will work. Six cognitive failures. Six firewalls. Make it swing.
 
 ```
-npx skills add whynowlab/swing-skills --all
+npx skills add thestack-ai/swing-skills --all
 ```
 
 > Built for [Claude Code](https://claude.com/claude-code) | Compatible with AI agents via [Agent Skills](https://agentskills.io) open standard
-> Created by [@thestack_ai](https://github.com/whynowlab)
+> Created by [@thestack_ai](https://github.com/thestack-ai)
 
 ---
 
@@ -263,24 +263,24 @@ You could paste these instructions into CLAUDE.md or a system prompt. But:
 ### Quick Install (npx)
 
 ```bash
-npx skills add whynowlab/swing-skills --all
+npx skills add thestack-ai/swing-skills --all
 ```
 
 ### Individual Skills
 
 ```bash
-npx skills add whynowlab/swing-skills@swing-clarify
-npx skills add whynowlab/swing-skills@swing-research
-npx skills add whynowlab/swing-skills@swing-review
-npx skills add whynowlab/swing-skills@swing-options
-npx skills add whynowlab/swing-skills@swing-trace
-npx skills add whynowlab/swing-skills@swing-mortem
+npx skills add thestack-ai/swing-skills@swing-clarify
+npx skills add thestack-ai/swing-skills@swing-research
+npx skills add thestack-ai/swing-skills@swing-review
+npx skills add thestack-ai/swing-skills@swing-options
+npx skills add thestack-ai/swing-skills@swing-trace
+npx skills add thestack-ai/swing-skills@swing-mortem
 ```
 
 ### Manual
 
 ```bash
-git clone https://github.com/whynowlab/swing-skills.git
+git clone https://github.com/thestack-ai/swing-skills.git
 cp -r swing-skills/skills/* ~/.claude/skills/
 ```
 
@@ -309,4 +309,4 @@ MIT License. See [LICENSE](LICENSE).
 
 ---
 
-**Swing** by [@thestack_ai](https://github.com/whynowlab) — 6 cognitive firewalls for your AI.
+**Swing** by [@thestack_ai](https://github.com/thestack-ai) — 6 cognitive firewalls for your AI.

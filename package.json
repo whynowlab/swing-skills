@@ -17,9 +17,9 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/whynowlab/swing-skills.git"
+    "url": "https://github.com/thestack-ai/swing-skills.git"
   },
-  "homepage": "https://github.com/whynowlab/swing-skills",
+  "homepage": "https://github.com/thestack-ai/swing-skills",
   "files": [
     "skills/**/*",
     "marketplace.json",

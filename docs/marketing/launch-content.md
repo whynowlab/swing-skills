@@ -42,11 +42,11 @@ I identified 6 distinct cognitive failures in AI coding agents and built a "fire
 | Black-box reasoning | swing-trace | Assumption inventory + weakest link |
 | Optimism bias | swing-mortem | Assumes failure, works backward |
 
-Install: `npx skills add whynowlab/swing-skills --all`
+Install: `npx skills add thestack-ai/swing-skills --all`
 
 MIT licensed, works with Claude Code + other agents via Agent Skills standard.
 
-Repo: https://github.com/whynowlab/swing-skills
+Repo: https://github.com/thestack-ai/swing-skills
 
 Happy to answer questions about the cognitive failure framework or how any of the skills work.
 
@@ -76,11 +76,11 @@ I mapped 6 distinct cognitive failures (hallucination, anchoring, confirmation b
 
 Each skill has explicit quality calibration with BAD and GOOD output examples, so the AI knows exactly what's expected.
 
-Install: npx skills add whynowlab/swing-skills --all
+Install: npx skills add thestack-ai/swing-skills --all
 
 Works with Claude Code, Cursor, Copilot via Agent Skills standard. MIT licensed.
 
-https://github.com/whynowlab/swing-skills
+https://github.com/thestack-ai/swing-skills
 ```
 
 ---
@@ -155,7 +155,7 @@ Not vibes. Structure.
 ```
 Install in 30 seconds:
 
-npx skills add whynowlab/swing-skills --all
+npx skills add thestack-ai/swing-skills --all
 
 Works with Claude Code, Cursor, Copilot.
 MIT licensed. 6 skills. Zero config.
@@ -167,7 +167,7 @@ MIT licensed. 6 skills. Zero config.
 
 Make it swing.
 
-github.com/whynowlab/swing-skills
+github.com/thestack-ai/swing-skills
 ```
 
 ---
@@ -254,14 +254,14 @@ Not better answers. *Structurally different reasoning.*
 ## Try it
 
 ```bash
-npx skills add whynowlab/swing-skills --all
+npx skills add thestack-ai/swing-skills --all
 ```
 
 Six skills. Each targets one cognitive failure. Use one, or chain them.
 
 MIT licensed. Works with Claude Code, Cursor, Copilot.
 
-**GitHub: [whynowlab/swing-skills](https://github.com/whynowlab/swing-skills)**
+**GitHub: [thestack-ai/swing-skills](https://github.com/thestack-ai/swing-skills)**
 
 ---
 
@@ -274,7 +274,7 @@ Swing – AI 코딩 에이전트를 위한 6개의 인지 방화벽
 
 ### URL:
 ```
-https://github.com/whynowlab/swing-skills
+https://github.com/thestack-ai/swing-skills
 ```
 
 ### Comment (첫 댓글):
@@ -294,7 +294,7 @@ SQLite가 1000명 동시접속을 감당할 수 있냐고 물었더니 "안 됩�
 
 Claude Code, Cursor, Copilot 호환. MIT 라이선스.
 
-설치: npx skills add whynowlab/swing-skills --all
+설치: npx skills add thestack-ai/swing-skills --all
 ```
 
 ---
@@ -321,10 +321,10 @@ With swing-research, it found WAL mode handles ~120 writes/sec, and Expensify ru
 - swing-trace (black-box reasoning)
 - swing-mortem (optimism bias)
 
-npx skills add whynowlab/swing-skills --all
+npx skills add thestack-ai/swing-skills --all
 
 Would love feedback from anyone who tries it.
-https://github.com/whynowlab/swing-skills
+https://github.com/thestack-ai/swing-skills
 ```
 
 ---
